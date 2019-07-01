@@ -1,3 +1,6 @@
+const EventEmitter = require("events");
+// const emitter = new EventEmitter();
+
 // syntax error but allos you to see how node imports modules
 // it uses an immedietly invokes function expression that contains
 // the module - it's called the module wrapper function
@@ -20,11 +23,17 @@ console.log(__dirname);
 // implementation detail
 var url = "http://mylogger.io/log";
 
-function log(message) {
-  // Send an HTTP request
-  console.log(message);
+// real world event example
+class Logger extends EventEmitter {
+  // method
+  log(message) {
+    // Send an HTTP request
+    console.log(message);
+
+    this.emit("messageLogged", { id: 1, url: "http://" });
+  }
 }
 
 // how you export a function in Node
 // this consistutes an API
-module.exports = log;
+module.exports = Logger;
