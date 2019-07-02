@@ -24,7 +24,9 @@ app.get("/api/courses", (req, res) => {
 });
 
 app.post("/api/courses", (req, res) => {
+  // you have to explicitly map out every input you expect like this if you have one not mentioned it won't work
   const schema = {
+    id: Joi.string().required(),
     name: Joi.string()
       .min(3)
       .required()
@@ -34,8 +36,16 @@ app.post("/api/courses", (req, res) => {
   console.log(result);
 
   // joi vlidation is the same as below
-  if (!req.body.name || req.body.name.length < 3) {
-    res.status(400).send("Invalid input");
+  //   if (!req.body.name || req.body.name.length < 3) {
+  //     res.status(400).send("Invalid input");
+  //     return;
+  //   }
+  console.log(result);
+
+  // with joi
+  if (result.error) {
+    // send for sending status codes is deprechiated
+    res.sendStatus(400).send(result.error);
     return;
   }
 
