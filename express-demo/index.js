@@ -124,6 +124,27 @@ app.put("/api/courses/:id", (req, res) => {
 // app.put();
 
 // app.delete();
+app.delete("/api/courses/:id", (req, res) => {
+  const course = courses.find(c => c.id === parseInt(req.params.id));
+
+  console.log("course is ", course);
+
+  if (!course) {
+    res
+      .status(404)
+      .send(
+        `A course with the given ID of ${req.params.id} could not be found.`
+      );
+    return;
+  }
+
+  const index = courses.indexOf(course);
+
+  console.log(index);
+
+  courses.splice(index, 1);
+  res.send(course);
+});
 
 // either use an env variable or 3000
 // process global
