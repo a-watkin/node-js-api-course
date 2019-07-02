@@ -1,0 +1,7 @@
+POST http://localhost:5000/api/categories
+content-type: application/json
+
+{
+    "id": "5",
+    "name": "adult"
+}
