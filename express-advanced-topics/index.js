@@ -1,3 +1,10 @@
+// Allows for turning on and off debugging messages
+// second argument here is an arbitrary namespace
+// you can have multiple debuggers
+const startupDebugger = require("debug")("app:startup");
+// db example
+const dbDebugger = require("debug")("app:db");
+
 // loads configs
 const config = require("config");
 
@@ -27,6 +34,9 @@ if (app.get("env") === "development") {
   // logging module - it logs http requests, tiny being the level of logging
   app.use(morgan("tiny"));
   console.log("Morgan enabled...");
+
+  // debugger equivalent of above
+  startupDebugger("Morgan enabled...");
 }
 
 // my middleware for demo purposes
