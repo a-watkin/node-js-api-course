@@ -1,11 +1,40 @@
+// loads configs
+const config = require("config");
+
 // input validation module
 const Joi = require("@hapi/joi");
-
+// for logging
+const morgan = require("morgan");
 const express = require("express");
 // called app by convention
 const app = express();
 
+// Configuration (config) - how you access config variables using config module
+console.log("Application name: " + config.get("name"));
+console.log("Mail server: " + config.get("mail.host"));
+
+// to get the environment the code is running under
+// dev and production config etc
+// process.env.NODE_ENV;
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
+// getting app settings, you can use it to get NODE_ENV also
+// if NODE_ENV is not set though it wil return development by default
+console.log(`app: ${app.get("env")}`);
+
+// enabling logging only if env is development
+if (app.get("env") === "development") {
+  // logging module - it logs http requests, tiny being the level of logging
+  app.use(morgan("tiny"));
+  console.log("Morgan enabled...");
+}
+
+// my middleware for demo purposes
 const logger = require("./logger");
+
+// Helmet helps you secure your Express apps by setting various HTTP headers
+const helmet = require("helmet");
+app.use(helmet());
 
 // installing a middleware
 app.use(logger);
@@ -27,7 +56,7 @@ app.use(express.json());
 // parses urls with url encoded payloads, eg key=value&key=value
 // extends means it can also take complex objects from the url
 // like lists and array
-app.use(express.urlencoded({ extends: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // tells the app where to find static content
 // so anything in the public folder can be accesses through the browser
