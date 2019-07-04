@@ -3,9 +3,9 @@ const express = require("express");
 // So you DON'T captitalise express
 const app = express();
 
-const genresRoutes = require("./routes/genres");
+const router = require("./routes/genres");
 
-app.use("/api/genres", genresRoutes);
+app.use("/api/genres", router);
 
 // tell express to use JSON
 app.use(express.json());

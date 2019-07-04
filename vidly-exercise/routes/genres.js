@@ -1,7 +1,7 @@
 // Input validation
 const Joi = require("@hapi/joi");
 const express = require("express");
-const genresRoutes = express.Router();
+const router = express.Router();
 
 // dummy data
 const genres = [
@@ -23,11 +23,11 @@ function validateGenre(cat) {
   return Joi.validate(cat, schema);
 }
 
-genresRoutes.get("/", (req, res) => {
+router.get("/", (req, res) => {
   return res.send(genres);
 });
 
-genresRoutes.get("/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   const cat = genres.find(c => c.id === req.params.id);
 
   if (!cat) {
@@ -37,7 +37,7 @@ genresRoutes.get("/:id", (req, res) => {
   return res.send(cat);
 });
 
-genresRoutes.post("/", (req, res) => {
+router.post("/", (req, res) => {
   const cat = genres.find(c => c.id === req.params.id);
 
   if (cat) {
@@ -56,7 +56,7 @@ genresRoutes.post("/", (req, res) => {
   return res.status(201).send(req.body);
 });
 
-genresRoutes.put("/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   // check resource exists
   const cat = genres.find(c => c.id === req.params.id);
 
@@ -81,7 +81,7 @@ genresRoutes.put("/:id", (req, res) => {
   return res.status(200).send(req.body);
 });
 
-genresRoutes.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   let catIndex = null;
   const cat = genres.find((c, index) => {
     if (c.id === req.params.id) {
@@ -98,4 +98,4 @@ genresRoutes.delete("/:id", (req, res) => {
   res.status(200).send(deletedCat);
 });
 
-module.exports = genresRoutes;
+module.exports = router;
