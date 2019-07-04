@@ -1,3 +1,4 @@
+const genresDebugger = require("debug")("app:api/genres");
 // Input validation
 const Joi = require("@hapi/joi");
 const express = require("express");
@@ -24,6 +25,7 @@ function validateGenre(cat) {
 }
 
 router.get("/", (req, res) => {
+  genresDebugger("testicles");
   return res.send(genres);
 });
 
