@@ -16,8 +16,10 @@ const app = express();
 
 // import courses as router object
 const courses = require("./routes/courses");
+const home = require("./routes/home");
 // path and router object - this prefixes routes in courses
 app.use("/api/courses", courses);
+app.use("/", home);
 
 // enabling logging only if env is development
 if (app.get("env") === "development") {
@@ -45,10 +47,6 @@ app.use(express.urlencoded({ extended: true }));
 // the content is served from the root of the site
 // localhost:5000/readme.txt
 app.use(express.static("public"));
-
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
 
 // either use an env variable or 3000
 // process global

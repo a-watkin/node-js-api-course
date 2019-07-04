@@ -1,10 +1,11 @@
 const express = require("express");
 // instead of app object you work with router object
 // when decomposing stuff
-const router = express.Router();
 
 // input validation module
 const Joi = require("@hapi/joi");
+
+const router = express.Router();
 
 const courses = [
   { id: 1, name: "course1" },
