@@ -9,7 +9,8 @@ const config = require("config");
 
 // for logging
 const morgan = require("morgan");
-
+// my middleware
+const logger = require("./middleware/logger");
 const express = require("express");
 // called app by convention
 const app = express();
@@ -20,6 +21,8 @@ const home = require("./routes/home");
 // path and router object - this prefixes routes in courses
 app.use("/api/courses", courses);
 app.use("/", home);
+// installing a middleware
+app.use(logger);
 
 // enabling logging only if env is development
 if (app.get("env") === "development") {
