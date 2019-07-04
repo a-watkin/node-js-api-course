@@ -18,7 +18,9 @@ console.log("Before");
 const p = getUser(1)
   .then(user => getRepositories(user.gitHubUsername))
   .then(repos => getCommits(repos[0]))
-  .then(commits => console.log("Commits ", commits));
+  .then(commits => console.log("Commits ", commits))
+  // catches any errors from the previous promises - it is a best practice to always catch errors from promises
+  .catch(err => console.log("Error ", err));
 
 function getUser(id) {
   return new Promise((resolve, reject) => {
