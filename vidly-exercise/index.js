@@ -1,14 +1,12 @@
 // Express framework
 const express = require("express");
 // So you DON'T captitalise express
-const app = express();
-
 const router = require("./routes/genres");
-
-app.use("/api/genres", router);
-
-// tell express to use JSON
+// express instance
+const app = express();
+// tell express to use JSON - you MUST put this before an routes
 app.use(express.json());
+app.use("/api/genres", router);
 
 // either use an env variable or 3000
 // process global
