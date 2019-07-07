@@ -9,6 +9,7 @@ const courseSchema = new mongoose.Schema({
   name: String,
   author: String,
   tags: [String],
+  price: Number,
   data: { type: Date, default: Date.now },
   isPublished: Boolean
 });
@@ -18,18 +19,23 @@ const courseSchema = new mongoose.Schema({
 // you don't need to have the date here because it's defined above as having a default value
 const Course = mongoose.model("Course", courseSchema);
 
+console.log(Course);
+
 // inside an async function because it's and asynchronous operation
 async function createCourse() {
-  try {
-    const course = new Course({
-      name: "Node.js Course",
-      author: "A",
-      tags: ["React", "frontend"],
-      isPublished: true
-    });
+  const course = new Course({
+    name: "Node.js Course",
+    author: "A",
+    tags: ["React", "frontend"],
+    price: 290,
+    isPublished: true
+  });
 
+  console.log(course);
+
+  try {
     // asynchronous operation
-    // when it's done result will contain the databse object
+    // when it's done result will contain the database object
     const result = await course.save();
     console.log(result);
   } catch (error) {
@@ -37,7 +43,7 @@ async function createCourse() {
   }
 }
 
-// createCourse();
+createCourse();
 
 // get all documents
 async function getCourses() {
