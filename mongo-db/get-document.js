@@ -21,4 +21,31 @@ async function getCourses() {
   console.log(courses);
 }
 
-getCourses();
+// getCourses();
+
+async function getPublishedCourses() {
+  // find courses where the value of a key is:
+  const pubCourses = await Course.find({ isPublished: true });
+  console.log(pubCourses);
+}
+
+// getPublishedCourses();
+
+async function getCoursesWithLimit() {
+  try {
+    const courses = await Course.find({ author: "A" })
+      .limit(2)
+      // also sort the results
+      // 1 in sort menas ascending, -1 descending
+      .sort({ name: -1 });
+    console.log(courses);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mongoose.disconnect();
+  }
+}
+
+getCoursesWithLimit();
+
+// mongoose.disconnect();
