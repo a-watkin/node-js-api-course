@@ -28,12 +28,15 @@ const Course = mongoose.model("Course", courseSchema);
 async function getCoursesWithSelect() {
   try {
     // objects within objects
-    const courses = await Course.find({
-      price: {
-        $gt: 9,
-        $lt: 100
-      }
-    });
+    const courses = await Course
+      // find all courses with a price of 10, 15 and 20 dollars
+      .find({ price: { $in: [10, 15, 20] } });
+    // .find({
+    //   price: {
+    //     $gt: 9,
+    //     $lt: 100
+    //   }
+    // });
     console.log(courses);
   } catch (error) {
     console.log(error);
