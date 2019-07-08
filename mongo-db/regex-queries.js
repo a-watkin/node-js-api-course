@@ -5,7 +5,7 @@ const { Course, mongoose } = require("./db-interface");
 async function getCourses() {
   try {
     const courses = await Course.find({
-      author: /pattern/
+      author: /^A/
     });
     console.log(courses);
   } catch (error) {
