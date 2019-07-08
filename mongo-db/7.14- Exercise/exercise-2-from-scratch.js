@@ -23,7 +23,8 @@ async function getPublishedFrontBackend() {
       tags: { $in: ["frontend", "backend"] }
     })
       .sort("-price")
-      .select(["name", "author"]);
+      // can also select the attributes like so:
+      .select("name author price");
     console.log(courses);
   } catch (error) {
     console.log(error);
