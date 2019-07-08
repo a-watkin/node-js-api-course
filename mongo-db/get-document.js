@@ -55,7 +55,7 @@ async function getCoursesWithSelect() {
     const courses = await Course.find({ author: "A" })
       .limit(2)
       // also sort the results
-      // 1 in sort menas ascending, -1 descending
+      // 1 in sort means ascending, -1 descending
       .sort({ name: -1 })
       .select({ name: "A", tags: "Node" });
     console.log(courses);
