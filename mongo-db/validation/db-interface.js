@@ -27,7 +27,20 @@ async function createCourse() {
       enum: ["web", "frontend", "backend"]
     },
     author: String,
-    tags: [String],
+    tags: {
+      type: Array,
+      // custom validation
+      validate: {
+        // v is short for value
+        validator: function(v) {
+          // custom validation logic
+          // v has to be greater than 0
+          return v && v.length > 0;
+        },
+        // provide a custom message to notify of validation errors
+        message: "A course should have at least one tag"
+      }
+    },
     // if isPublished is true then a price is required
     // you can't use an arrow function here because they do not have this in the right context
     price: {
@@ -53,7 +66,8 @@ async function createCourse() {
     const course = new Course({
       author: "Maya",
       name: "magic",
-      tags: ["angular", "frontend"],
+      // tags: ["angular", "frontend"],
+      tags: null,
       isPublished: true,
       category: "frontend",
       price: 350
