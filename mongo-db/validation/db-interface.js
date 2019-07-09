@@ -13,7 +13,19 @@ mongoose
 // the validation is provided by mongoose
 async function createCourse() {
   const courseSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+    name: {
+      type: String,
+      required: true,
+      minlength: 5,
+      maxlength: 255
+      // you can also use a regex
+      // match: /pattern/
+    },
+    category: {
+      type: String,
+      // category has to be one of the below to pass validation
+      enum: ["web", "frontend", "backend"]
+    },
     author: String,
     tags: [String],
     // if isPublished is true then a price is required
@@ -41,6 +53,7 @@ async function createCourse() {
       name: "magic",
       tags: ["angular", "frontend"],
       isPublished: true,
+      category: "frontend",
       price: 400
     });
 
