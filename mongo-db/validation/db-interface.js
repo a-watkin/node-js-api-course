@@ -31,11 +31,20 @@ async function createCourse() {
       type: Array,
       // custom validation
       validate: {
+        // async validator - for when you have to wait for some indeterminate amount of time for something to return
+        isAsync: true,
+
         // v is short for value
-        validator: function(v) {
+        validator: function(v, callback) {
+          setTimeout(() => {
+            // Do async work
+            const result = v && v.length > 0;
+            callback(result);
+          }, 100);
+
           // custom validation logic
           // v has to be greater than 0
-          return v && v.length > 0;
+          // return v && v.length > 0;
         },
         // provide a custom message to notify of validation errors
         message: "A course should have at least one tag"
@@ -67,6 +76,7 @@ async function createCourse() {
       author: "Maya",
       name: "magic",
       // tags: ["angular", "frontend"],
+      // for testing custom validators
       tags: null,
       isPublished: true,
       category: "frontend",
@@ -77,7 +87,13 @@ async function createCourse() {
 
     console.log(result);
   } catch (error) {
-    console.log(error);
+    // the error object has properties for message, error, tags and categories that you can iterate over
+    // console.log("hello...?", error.message, error.errors);
+
+    for (field in error.errors) {
+      // validation error object
+      console.log(error.errors[field].message);
+    }
   } finally {
     mongoose.disconnect();
   }
