@@ -34,7 +34,9 @@ async function createCourse() {
       type: Number,
       required: function() {
         return this.isPublished;
-      }
+      },
+      min: 10,
+      max: 350
     },
     data: { type: Date, default: Date.now },
     isPublished: Boolean
@@ -54,7 +56,7 @@ async function createCourse() {
       tags: ["angular", "frontend"],
       isPublished: true,
       category: "frontend",
-      price: 400
+      price: 350
     });
 
     const result = await course.save();
