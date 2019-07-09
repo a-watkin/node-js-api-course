@@ -24,7 +24,12 @@ async function createCourse() {
     category: {
       type: String,
       // category has to be one of the below to pass validation
-      enum: ["web", "frontend", "backend"]
+      enum: ["web", "frontend", "backend"],
+      // automatically converts to lowercase
+      lowercase: true,
+      // uppsercase: true,
+      // remove any proceeding or trailing whitespace
+      trim: true
     },
     author: String,
     tags: {
@@ -58,7 +63,12 @@ async function createCourse() {
         return this.isPublished;
       },
       min: 10,
-      max: 350
+      max: 350,
+      // custom schematype options
+      // round price values to a whole number
+      // it will automatically round when getting or setting the price so that it is a whole number
+      get: v => Math.round(v),
+      set: v => Math.round(v)
     },
     data: { type: Date, default: Date.now },
     isPublished: Boolean
@@ -75,11 +85,12 @@ async function createCourse() {
     const course = new Course({
       author: "Maya",
       name: "magic",
-      // tags: ["angular", "frontend"],
+      tags: ["angular", "frontend"],
       // for testing custom validators
-      tags: null,
+      // tags: null,
       isPublished: true,
-      category: "frontend",
+      // test of automatic lowercase
+      category: "FRONTEND",
       price: 350
     });
 
