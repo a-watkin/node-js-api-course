@@ -29,5 +29,5 @@ async function updateCourse(id) {
   }
 }
 
-// returns a modification object outlining the changes made and that satus
+// returns a modification object outlining the changes made and that status
 updateCourse("5d2229bebfd6184c0fd60635");
