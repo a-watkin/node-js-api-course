@@ -67,6 +67,8 @@ async function createCourse() {
       // custom schematype options
       // round price values to a whole number
       // it will automatically round when getting or setting the price so that it is a whole number
+
+      // even if the value in the db is 15.8 it will be returned at 16 with this get method in place
       get: v => Math.round(v),
       set: v => Math.round(v)
     },
