@@ -18,8 +18,6 @@ const app = express();
 console.log(app.get("env"));
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 
-console.log("Application name: " + config.get("name"));
-
 // enabling logging only if env is development
 if (app.get("env") === "development") {
   // logging module - it logs http requests, tiny being the level of logging
