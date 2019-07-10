@@ -7,7 +7,7 @@ const router = express.Router();
 // dummy data
 const genres = [
   { id: "1", name: "action" },
-  { id: "2", name: "comdey" },
+  { id: "2", name: "comedy" },
   { id: "3", name: "romance" },
   { id: "4", name: "animation" }
 ];
@@ -25,7 +25,7 @@ function validateGenre(cat) {
 }
 
 router.get("/", (req, res) => {
-  genresDebugger("testicles");
+  genresDebugger("Get request recieved");
   return res.send(genres);
 });
 
