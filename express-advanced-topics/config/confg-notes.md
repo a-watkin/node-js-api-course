@@ -1,5 +1,5 @@
-# When you have a env variable this switches automically
+# When you have a env variable this switches automatically
 
-`custom-enviroment-variables.json` must be spelled that way to work
+`custom-environment-variables.json` must be spelled that way to work
 
-in `custom-enviroment-variables.json` you override anything you want with an env variable
+in `custom-environment-variables.json` you override anything you want with an env variable

@@ -10,7 +10,7 @@ const config = require("config");
 
 // input validation module
 const Joi = require("@hapi/joi");
-// for logging
+// for logging - http requests only
 const morgan = require("morgan");
 const express = require("express");
 // called app by convention
