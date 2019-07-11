@@ -3,6 +3,9 @@ const genresDebugger = require("debug")("app:api/genres");
 const Joi = require("@hapi/joi");
 const express = require("express");
 const router = express.Router();
+const db = require("../db-interface");
+
+db.dbApi.
 
 // dummy data
 const genres = [
