@@ -21,9 +21,10 @@ async function createGenre(arr) {
 }
 
 async function getGenres() {
+  let result = {};
   try {
     const genres = await Genre.find();
-    dbDebugger(genres);
+    dbDebugger("if does fucking get some data ", genres);
     return genres;
   } catch (error) {
     dbDebugger("error", error);
@@ -86,6 +87,8 @@ async function deleteAllGenres() {
   } catch (error) {
     dbDebugger("error deleting ", error);
   } finally {
+    dbDebugger("Deleted all genres...");
+    dbDebugger("Disconnected from mongodb");
     mongoose.disconnect();
   }
 }
@@ -116,5 +119,12 @@ const dbApi = {
   deleteAllGenres: deleteAllGenres,
   makeGenres: makeGenres
 };
+
+// dbApi.getGenres();
+
+// getGenres()
+//   .then(res => dbDebugger("fucking bullshit ", res))
+//   .catch(dbDebugger("fuck you"));
+// dbDebugger("why the fuck are there no results...", result);
 
 module.exports = dbApi;
