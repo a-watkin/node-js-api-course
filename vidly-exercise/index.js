@@ -35,7 +35,7 @@ app.use("/api/genres", router);
 
 // either use an env variable or 3000
 // process global
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 // start the app listening
 app.listen(port, () => {
