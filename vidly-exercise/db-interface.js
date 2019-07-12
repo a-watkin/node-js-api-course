@@ -1,56 +1,24 @@
-const mongoose = require("mongoose");
+const { mongoose, Genre } = require("./dbConnection");
 const dbDebugger = require("debug")("app:dbDebugger");
-
-mongoose
-  .connect("mongodb://localhost/vidly", { useNewUrlParser: true })
-  .then(() => console.log("Connected to MongoDB..."))
-  .catch(err => console.log("Could not connect to mongodb..."));
-
-const genreSchema = new mongoose.Schema({
-  genre: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 25
-  }
-});
-
-const Genre = mongoose.model("Genre", genreSchema);
-
-// mongo doesn't care if you have a datatype or not
-// it will accept anything
-
-// so to enforce data types and required fields you can do like below. Anything missing or wrong will throw an error.
 
 // the validation is provided by mongoose
 async function createGenre(arr) {
   try {
-    // manually trigger validation
-    // const result = await course.validate();
-    // validate returns a promise of void if everything works
-
-    // validation happens automatically when you try to save a course
     const genre = new Genre(arr);
-
     const result = await genre.save();
-
-    dbDebugger(result);
+    dbDebugger("what is result? ", result);
   } catch (error) {
     // the error object has properties for message, error, tags and categories that you can iterate over
     // console.log("hello...?", error.message, error.errors);
-
     for (field in error.errors) {
       // validation error object
       dbDebugger(error.errors[field].message);
     }
   } finally {
     mongoose.disconnect();
+    dbDebugger("Disconnected");
   }
 }
-
-// createGenre({
-//   genre: "romance"
-// });
 
 async function getGenres() {
   try {
@@ -61,6 +29,7 @@ async function getGenres() {
     dbDebugger("error", error);
   } finally {
     mongoose.disconnect();
+    dbDebugger("Disconnected from db.");
   }
 }
 
@@ -75,8 +44,6 @@ async function getGenre(id) {
     mongoose.disconnect();
   }
 }
-
-// getGenre("5d2654a1628ef126848e03a8");
 
 async function updateGenre(id, newName) {
   try {
@@ -101,8 +68,6 @@ async function updateGenre(id, newName) {
   }
 }
 
-// updateGenre("5d2654a1628ef126848e03a8", "action");
-
 async function deleteGenre(id) {
   try {
     const genres = await Genre.deleteOne({ _id: id });
@@ -125,9 +90,8 @@ async function deleteAllGenres() {
   }
 }
 
-// deleteAllGenres();
-
 function makeGenres() {
+  dbDebugger("makeGenres called...");
   createGenre({ genre: "action" });
   createGenre({ genre: "comedy" });
   createGenre({ genre: "romance" });
@@ -144,13 +108,13 @@ function makeGenres() {
 // delete
 
 const dbApi = {
-  createGenre: createGenre(),
-  getGenre: getGenre(),
-  getGenres: getGenres(),
-  updateGenre: updateGenre(),
-  deleteGenre: deleteGenre(),
-  deleteAllGenres: deleteAllGenres(),
-  makeGenres: makeGenres()
+  createGenre: createGenre,
+  getGenre: getGenre,
+  getGenres: getGenres,
+  updateGenre: updateGenre,
+  deleteGenre: deleteGenre,
+  deleteAllGenres: deleteAllGenres,
+  makeGenres: makeGenres
 };
 
 module.exports = dbApi;
