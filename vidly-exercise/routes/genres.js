@@ -1,19 +1,10 @@
-const genresDebugger = require("debug")("app:api/genres");
+const info = require("debug")("app:info");
 // Input validation
 const Joi = require("@hapi/joi");
 const express = require("express");
 const router = express.Router();
-const db = require("../db-interface");
-
-db.dbApi.
-
-// dummy data
-const genres = [
-  { id: "1", name: "action" },
-  { id: "2", name: "comedy" },
-  { id: "3", name: "romance" },
-  { id: "4", name: "animation" }
-];
+// const db = require("../db-interface");
+const db = require("../dbConnection");
 
 function validateGenre(cat) {
   // validation object
@@ -27,19 +18,26 @@ function validateGenre(cat) {
   return Joi.validate(cat, schema);
 }
 
-router.get("/", (req, res) => {
-  genresDebugger("Get request recieved");
+// router.get("/", (req, res) => {
+//   info("Get request received");
+//   db.Genre.find()
+//     .then(data => res.send(data))
+//     .catch(err => res.send("Something went wrong...", err));
+// });
+
+router.get("/", async (req, res) => {
+  const genres = await db.Genre.find().sort("genre");
   return res.send(genres);
 });
 
-router.get("/:id", (req, res) => {
-  const cat = genres.find(c => c.id === req.params.id);
-
-  if (!cat) {
-    return res.status(404).send("Only dogs here.");
+router.get("/:id", async (req, res) => {
+  try {
+    const genre = await db.Genre.findOne({ _id: req.params.id });
+    return res.send(genre);
+  } catch (error) {
+    info("Problem getting genre with id: ", req.params.id);
+    return res.send("autism beavers");
   }
-
-  return res.send(cat);
 });
 
 router.post("/", (req, res) => {
