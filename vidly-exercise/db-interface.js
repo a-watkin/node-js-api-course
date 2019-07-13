@@ -94,14 +94,17 @@ async function deleteAllGenres() {
 }
 
 function makeGenres() {
+  console.log("makeGenres being called");
   dbDebugger("makeGenres called...");
   createGenre({ genre: "action" });
   createGenre({ genre: "comedy" });
   createGenre({ genre: "romance" });
   createGenre({ genre: "animation" });
+  return true;
 }
 
-// makeGenres();
+// const test = makeGenres();
+// console.log(test);
 // deleteGenre("5d2654a1628ef126848e03a8");
 
 // CRUD
