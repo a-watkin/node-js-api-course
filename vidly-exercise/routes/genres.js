@@ -5,6 +5,7 @@ const express = require("express");
 const router = express.Router();
 // const db = require("../db-interface");
 const db = require("../dbConnection");
+const dbApi = require("../db-interface");
 
 function validateGenre(cat) {
   // validation object
@@ -18,25 +19,31 @@ function validateGenre(cat) {
   return Joi.validate(cat, schema);
 }
 
-// router.get("/", (req, res) => {
-//   info("Get request received");
-//   db.Genre.find()
-//     .then(data => res.send(data))
-//     .catch(err => res.send("Something went wrong...", err));
-// });
-
 router.get("/", async (req, res) => {
   const genres = await db.Genre.find().sort("genre");
   return res.send(genres);
 });
 
+router.get("/create", (req, res) => {
+  try {
+    const result = dbApi.makeGenres();
+    if (result) {
+      res.status(200).send("Genres created.");
+    }
+  } catch (error) {
+    return res.send("Genres could not be created.");
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const genre = await db.Genre.findOne({ _id: req.params.id });
+    if (!genre) {
+      return res.status(404).send("Genre not found.");
+    }
     return res.send(genre);
   } catch (error) {
-    info("Problem getting genre with id: ", req.params.id);
-    return res.send("autism beavers");
+    return res.send("Problem getting genre with id: ", req.params.id);
   }
 });
 
@@ -91,21 +98,34 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", (req, res) => {
-  let catIndex = null;
-  const cat = genres.find((c, index) => {
-    if (c.id === req.params.id) {
-      catIndex = index;
-      return c.id === req.params.id;
-    }
-  });
+router.delete("/delete", async (req, res) => {
+  try {
+    const genres = await db.Genre.deleteMany();
+    info(genres);
 
-  if (!cat) {
-    return res.status(404).send("Resource does not exist.");
+    return res.status(200).send(genres);
+  } catch (error) {
+    return res.status(500).send("Error deleting genres.");
   }
+});
 
-  const deletedCat = genres.splice(catIndex, 1);
-  res.status(200).send(deletedCat);
+router.delete("/:id", async (req, res) => {
+  try {
+    info(req.params.id);
+    const result = await db.Genre.findOne({ _id: req.params.id });
+
+    if (!result) {
+      return res.status(404).send("Genre not found.");
+    }
+    try {
+      const deletedGenre = await db.Genre.deleteOne({ _id: req.params.id });
+      return res.status(200).send(result);
+    } catch (error) {
+      return res.status(500).send("Genre not deleted.");
+    }
+  } catch (error) {
+    res.send("something went wrong");
+  }
 });
 
 module.exports = router;
