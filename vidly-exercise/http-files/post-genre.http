@@ -2,5 +2,5 @@ POST http://localhost:5000/api/genres
 content-type: application/json
 
 {
-    "genre": "adult"
+    "genre": 3093284209
 }
