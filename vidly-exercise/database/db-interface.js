@@ -53,7 +53,7 @@ async function updateGenre(id, newName) {
     if (!genre) {
       return;
     }
-    genre.genre = newName;
+    genre.name = newName;
     dbDebugger(genre);
     try {
       const result = await genre.save();
@@ -96,10 +96,10 @@ async function deleteAllGenres() {
 function makeGenres() {
   console.log("makeGenres being called");
   dbDebugger("makeGenres called...");
-  createGenre({ genre: "action" });
-  createGenre({ genre: "comedy" });
-  createGenre({ genre: "romance" });
-  createGenre({ genre: "animation" });
+  createGenre({ name: "action" });
+  createGenre({ name: "comedy" });
+  createGenre({ name: "romance" });
+  createGenre({ name: "animation" });
   return true;
 }
 

@@ -8,7 +8,7 @@ mongoose
   .catch(err => console.log("Could not connect to mongodb..."));
 
 const genreSchema = new mongoose.Schema({
-  genre: {
+  name: {
     type: String,
     required: true,
     minlength: 3,
