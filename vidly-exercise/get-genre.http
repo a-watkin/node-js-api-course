@@ -1,2 +1,2 @@
-GET http://localhost:5000/api/genres/2
+GET http://localhost:5000/api/genres/5d28c9341a05f051d3f7a515
 Content-Type: application/json

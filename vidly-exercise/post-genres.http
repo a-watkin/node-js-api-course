@@ -2,6 +2,5 @@ POST http://localhost:5000/api/genres
 content-type: application/json
 
 {
-    "id": "5",
-    "name": "adult"
+    "genre": "adult"
 }
