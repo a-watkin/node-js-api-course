@@ -60,38 +60,35 @@ router.post("/", async (req, res) => {
         info(error);
       }
     }
-
     info(result);
   } catch (error) {
     info(error);
   }
-
   res.send("autism beavers");
 });
 
-router.put("/:id", (req, res) => {
-  // check resource exists
-  const cat = genres.find(c => c.id === req.params.id);
+router.put("/:id", async (req, res) => {
+  try {
+    info("id is ", req.params.id);
+    const result = await db.Genre.findOne({ _id: req.params.id });
+    info("result is ", result.genre);
+    if (result) {
+      info("getting here?", req.body.name);
+      // update the genre
+      result.genre = req.body.name;
 
-  if (!cat) {
-    return res.status(404).send("Resource does not exist.");
+      try {
+        const savedUpdate = await result.save();
+        return res.status(200).send(savedUpdate);
+      } catch (error) {
+        return res.status(500).send("Problem updating the genre ", error);
+      }
+    } else {
+      return res.status(404).send("Genre not found.");
+    }
+  } catch (error) {
+    return res.status(500).send("autism beavers");
   }
-
-  // validate input
-  const { error } = validateGenre(req.body);
-
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  }
-
-  // find the index in the collection
-  const index = genres.indexOf(cat);
-  // replace current object - remember you have to tell it how many to replace
-  genres.splice(index, 1, req.body);
-  console.log(genres);
-
-  // send new object back to client
-  return res.status(200).send(req.body);
 });
 
 router.delete("/:id", (req, res) => {
