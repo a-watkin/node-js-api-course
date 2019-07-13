@@ -40,23 +40,33 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
-  const cat = genres.find(c => c.id === req.params.id);
+router.post("/", async (req, res) => {
+  info(req.body);
 
-  if (cat) {
-    return res.status(409).send("Already present.");
+  try {
+    const result = await db.Genre.findOne({ genre: req.body.genre });
+
+    if (result) {
+      info("getting this far?");
+      return res.status(409).send(result);
+    } else {
+      const genre = new db.Genre(req.body);
+      try {
+        const newGenre = await genre.save();
+        if (newGenre) {
+          return res.send(newGenre);
+        }
+      } catch (error) {
+        info(error);
+      }
+    }
+
+    info(result);
+  } catch (error) {
+    info(error);
   }
 
-  const { error } = validateGenre(req.body);
-  // for fuck sake this took too long
-  if (error) {
-    return res.status(409).send(error.details[0].message);
-  }
-
-  genres.push(req.body);
-  console.log(genres);
-  // 201 resource creates
-  return res.status(201).send(req.body);
+  res.send("autism beavers");
 });
 
 router.put("/:id", (req, res) => {
