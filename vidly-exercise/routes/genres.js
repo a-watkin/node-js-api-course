@@ -6,7 +6,8 @@ const router = express.Router();
 const db = require("../database/dbConnection");
 const dbApi = require("../database/db-interface");
 
-function validateGenre(genre) {
+function validateGenre(name) {
+  info("called with ", name);
   // validation object
   const schema = {
     name: Joi.string()
@@ -14,15 +15,26 @@ function validateGenre(genre) {
       .required()
   };
 
-  return Joi.validate(genre, schema);
+  return Joi.validate(name, schema);
 }
 
 router.get("/", async (req, res) => {
-  const genres = await db.Genre.find().sort("genre");
-  return res.send(genres);
+  try {
+    const genres = await db.Genre.find().sort("name");
+
+    if (!genres) {
+      res.status(404).send("Genre not found.");
+    }
+    return res.send(genres);
+  } catch (error) {
+    return res.status.send(
+      `An error ocurred while handling your request ${error}`
+    );
+  }
 });
 
 router.get("/create", (req, res) => {
+  // creating dummy data - you must end the server before doing anything else otherwise it hangs
   try {
     const result = dbApi.makeGenres();
     if (result) {
@@ -46,19 +58,15 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const validationResult = validateGenre(req.body.genre);
-
-  info(validationResult);
+  // joi expects an object
+  const validationResult = validateGenre(req.body);
+  info(validationResult, validationResult.error);
   if (validationResult.error) {
-    return res
-      .status(400)
-      .send(
-        "The name of a genre must be a string and must be at least 3 characters long."
-      );
+    return res.status(400).send(validationResult.error.details[0].message);
   }
 
   try {
-    const result = await db.Genre.findOne({ genre: req.body.genre });
+    const result = await db.Genre.findOne({ name: req.body.name });
 
     if (result) {
       info("getting this far?");
@@ -82,7 +90,7 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const validationResult = validateGenre(req.body.genre);
+  const validationResult = validateGenre(req.body);
 
   info(validationResult);
   if (validationResult.error) {
@@ -99,7 +107,7 @@ router.put("/:id", async (req, res) => {
     info("result is ", result.genre);
     if (result) {
       // update the genre
-      result.genre = req.body.name;
+      result.name = req.body.name;
 
       try {
         const savedUpdate = await result.save();
