@@ -3,20 +3,18 @@ const info = require("debug")("app:info");
 const Joi = require("@hapi/joi");
 const express = require("express");
 const router = express.Router();
-// const db = require("../db-interface");
 const db = require("../dbConnection");
 const dbApi = require("../db-interface");
 
-function validateGenre(cat) {
+function validateGenre(genre) {
   // validation object
   const schema = {
-    id: Joi.string().required(),
     name: Joi.string()
       .min(3)
       .required()
   };
 
-  return Joi.validate(cat, schema);
+  return Joi.validate(genre, schema);
 }
 
 router.get("/", async (req, res) => {
@@ -48,7 +46,16 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  info(req.body);
+  const validationResult = validateGenre(req.body.genre);
+
+  info(validationResult);
+  if (validationResult.error) {
+    return res
+      .status(400)
+      .send(
+        "The name of a genre must be a string and must be at least 3 characters long."
+      );
+  }
 
   try {
     const result = await db.Genre.findOne({ genre: req.body.genre });
@@ -75,12 +82,22 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
+  const validationResult = validateGenre(req.body.genre);
+
+  info(validationResult);
+  if (validationResult.error) {
+    return res
+      .status(400)
+      .send(
+        "The name of a genre must be a string and must be at least 3 characters long."
+      );
+  }
+
   try {
     info("id is ", req.params.id);
     const result = await db.Genre.findOne({ _id: req.params.id });
     info("result is ", result.genre);
     if (result) {
-      info("getting here?", req.body.name);
       // update the genre
       result.genre = req.body.name;
 
