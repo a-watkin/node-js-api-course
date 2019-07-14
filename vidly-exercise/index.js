@@ -2,8 +2,9 @@
 const express = require("express");
 // logging
 const morgan = require("morgan");
-// So you DON'T captitalise express
-const router = require("./routes/genres");
+// So you DON'T capitalise express
+const genreRouter = require("./routes/genres");
+const customerRouter = require("./routes/customers");
 
 // loads configs
 const config = require("config");
@@ -31,7 +32,9 @@ if (app.get("env") === "development") {
 app.use(helmet());
 // tell express to use JSON - you MUST put this before an routes
 app.use(express.json());
-app.use("/api/genres", router);
+app.use("/api/genres", genreRouter);
+// to plural or not to plural that is fucking annoying
+app.use("/api/customers", customerRouter);
 
 // either use an env variable or 3000
 // process global
