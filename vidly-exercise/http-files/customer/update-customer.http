@@ -1,0 +1,7 @@
+PUT http://localhost:5000/api/customers/5d2ae14efe889f1266854a12
+Content-Type: application/json
+
+{
+    "isgold": "false",
+    "name": "french"
+}
