@@ -3,7 +3,7 @@ const info = require("debug")("app:info");
 const Joi = require("@hapi/joi");
 const express = require("express");
 const router = express.Router();
-const db = require("../database/dbConnection");
+const db = require("../database/model");
 const dbApi = require("../database/db-interface");
 
 function validateGenre(name) {
