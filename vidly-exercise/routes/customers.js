@@ -54,15 +54,27 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     let customer = await db.Customer.findOne({ _id: req.params.id });
-    customerInfo("wha..", customer);
 
     if (!customer) {
       res.status(404).send("customer not found");
     }
     // i need to merge the new stuff with the old
+    const mergedObjects = { ...customer._doc, ...req.body };
 
-    customer = [...customer, req.body];
-    customerInfo("blah", customer);
+    try {
+      const saveResult = await customer.findByIdAndUpdate(
+        req.params.id,
+        mergedObjects
+      );
+      customerInfo(saveResult);
+      const checkSave = await db.Customer.findOne({ _id: req.params.id });
+      return res.send(checkSave);
+    } catch (error) {
+      customerInfo("fuck");
+    }
+
+    // customerInfo("blah", mergedObjects);
+    return res.send(mergedObjects);
   } catch (error) {
     res.send(error);
   }
