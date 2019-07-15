@@ -62,15 +62,19 @@ router.put("/:id", async (req, res) => {
     const mergedObjects = { ...customer._doc, ...req.body };
 
     try {
-      const saveResult = await customer.findByIdAndUpdate(
+      // update the object in the database
+      // this should actually return the object also
+      // but it doesn't seem to work well, it doesn't return the updated object as soon as it updates it seems
+      const saveResult = await db.Customer.findByIdAndUpdate(
         req.params.id,
         mergedObjects
       );
-      customerInfo(saveResult);
-      const checkSave = await db.Customer.findOne({ _id: req.params.id });
-      return res.send(checkSave);
+
+      // get that object
+      const savedObject = await db.Customer.findOne({ _id: req.params.id });
+      return res.send(savedObject);
     } catch (error) {
-      customerInfo("fuck");
+      customerInfo("Error ", error);
     }
 
     // customerInfo("blah", mergedObjects);
@@ -89,6 +93,26 @@ router.delete("/delete", async (req, res) => {
     res.send(customers);
   } catch (error) {
     res.status(500).send("Not deleted.");
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const result = await db.Customer.findOne({ _id: req.params.id });
+
+    if (!result) {
+      return res.status(404).send("Customer not found.");
+    }
+    try {
+      const deletedCustomer = await db.Customer.deleteOne({
+        _id: req.params.id
+      });
+      return res.status(200).send(result);
+    } catch (error) {
+      return res.status(500).send("Customer not deleted.");
+    }
+  } catch (error) {
+    res.send("something went wrong");
   }
 });
 
