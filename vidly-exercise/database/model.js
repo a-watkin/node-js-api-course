@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const dbInfo = require("debug")("app:dbConnection");
 
+mongoose.set("useFindAndModify", false);
+
 // tried to put all this in a callable function and it seemed to work but getting documents caused it to complain
 mongoose
   .connect("mongodb://localhost/vidly", { useNewUrlParser: true })
