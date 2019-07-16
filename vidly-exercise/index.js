@@ -24,7 +24,6 @@ const dbInfo = require("debug")("app:dbInfo");
 
 dbInfo("fuck you");
 
-// tried to put all this in a callable function and it seemed to work but getting documents caused it to complain
 // it seems making the connection here makes it available throughout the app?
 mongoose
   .connect("mongodb://localhost/vidly", { useNewUrlParser: true })
