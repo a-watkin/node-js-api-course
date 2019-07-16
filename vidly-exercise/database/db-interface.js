@@ -1,4 +1,4 @@
-const { mongoose, Genre } = require("./model");
+const { mongoose, Genre } = require("./genre");
 const dbDebugger = require("debug")("app:dbDebugger");
 
 // the validation is provided by mongoose
