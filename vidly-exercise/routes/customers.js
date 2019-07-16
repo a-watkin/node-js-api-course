@@ -1,14 +1,27 @@
-const customerInfo = require("debug")("app:customerInfo");
+const info = require("debug")("app:info");
 // Input validation
 const Joi = require("@hapi/joi");
 const express = require("express");
 const router = express.Router();
 const db = require("../database/model");
 
+function validateCustomer(customer) {
+  const schema = {
+    name: Joi.string()
+      .min(3)
+      .max(25)
+      .required(),
+    isGold: Joi.boolean(),
+    phone: Joi.string()
+  };
+
+  return Joi.validate(customer, schema);
+}
+
 router.get("/", async (req, res) => {
   try {
     const customers = await db.Customer.find();
-    customerInfo(customers);
+    info(customers);
     if (!customers) {
       res.send("blah");
     }
@@ -38,7 +51,10 @@ router.post("/", async (req, res) => {
     if (customerCheck) {
       return res.send("Already exists.");
     }
-
+    const validationResult = validateCustomer(req.body);
+    if (validationResult.error) {
+      return res.status(400).send(validationResult.error.details[0].message);
+    }
     const customer = new db.Customer(req.body);
     try {
       const result = await customer.save();
@@ -52,35 +68,40 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
+  info("getting here");
   try {
     let customer = await db.Customer.findOne({ _id: req.params.id });
 
     if (!customer) {
-      res.status(404).send("customer not found");
-    }
-    // i need to merge the new stuff with the old
-    const mergedObjects = { ...customer._doc, ...req.body };
-
-    try {
-      // update the object in the database
-      // this should actually return the object also
-      // but it doesn't seem to work well, it doesn't return the updated object as soon as it updates it seems
-      const saveResult = await db.Customer.findByIdAndUpdate(
-        req.params.id,
-        mergedObjects
-      );
-
-      // get that object
-      const savedObject = await db.Customer.findOne({ _id: req.params.id });
-      return res.send(savedObject);
-    } catch (error) {
-      customerInfo("Error ", error);
+      res.status(404).send(`Customer with id: ${req.params.id} not found.`);
     }
 
-    // customerInfo("blah", mergedObjects);
-    return res.send(mergedObjects);
+    const validationResult = validateCustomer(req.body);
+    if (validationResult.error) {
+      return res.status(400).send(validationResult.error.details[0].message);
+    } else {
+      try {
+        // Merge the current object with the one passed by the user
+        const mergedObjects = { ...customer._doc, ...req.body };
+        // update the object in the database
+        // this should actually return the object also
+        // but it doesn't seem to work well, it doesn't return the updated object as soon as it updates it seems
+        const saveResult = await db.Customer.findByIdAndUpdate(
+          req.params.id,
+          mergedObjects
+        );
+
+        info(saveResult);
+
+        // get that object
+        const savedObject = await db.Customer.findOne({ _id: req.params.id });
+        return res.send(savedObject);
+      } catch (error) {
+        info("Error ", error);
+      }
+    }
   } catch (error) {
-    res.send(error);
+    return res.send(error);
   }
 });
 

@@ -1,9 +1,8 @@
-PUT http://localhost:5000/api/customers/5d2ae14efe889f1266854a12
+PUT http://localhost:5000/api/customers/5d2ae22b12a53812b77f8f45
 Content-Type: application/json
 
 {
-    "isgold": "false",
-    "name": "blah blah blah",
-    "autismLevel": 100,
-    "marmalade": "turnip"
+    "isGold": false,
+    "name": "non",
+    "phone": "34209482"
 }

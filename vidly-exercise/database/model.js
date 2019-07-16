@@ -19,7 +19,10 @@ const genreSchema = new mongoose.Schema({
 });
 
 const customerSchema = new mongoose.Schema({
-  isGold: Boolean,
+  isGold: {
+    type: Boolean,
+    default: false
+  },
   name: {
     type: String,
     required: true,
