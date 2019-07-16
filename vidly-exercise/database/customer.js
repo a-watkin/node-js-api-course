@@ -1,22 +1,6 @@
 const mongoose = require("mongoose");
-const dbInfo = require("debug")("app:dbConnection");
-
-mongoose.set("useFindAndModify", false);
-
-// tried to put all this in a callable function and it seemed to work but getting documents caused it to complain
-mongoose
-  .connect("mongodb://localhost/vidly", { useNewUrlParser: true })
-  .then(() => console.log("Connected to MongoDB..."))
-  .catch(err => console.log("Could not connect to mongodb..."));
-
-const genreSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 25
-  }
-});
+const Joi = require("@hapi/joi");
+const info = require("debug")("app:info");
 
 const customerSchema = new mongoose.Schema({
   isGold: {
@@ -35,8 +19,20 @@ const customerSchema = new mongoose.Schema({
   }
 });
 
-const Genre = mongoose.model("Genre", genreSchema);
 const Customer = mongoose.model("Customer", customerSchema);
+
+function validateCustomer(customer) {
+  const schema = {
+    name: Joi.string()
+      .min(3)
+      .max(25)
+      .required(),
+    isGold: Joi.boolean(),
+    phone: Joi.string()
+  };
+
+  return Joi.validate(customer, schema);
+}
 
 // the validation is provided by mongoose
 async function createCustomer(arr) {
@@ -63,4 +59,4 @@ async function createCustomer(arr) {
 //   phone: "439745983798"
 // });
 
-module.exports = { Genre, Customer };
+module.exports = { Customer, validateCustomer };
