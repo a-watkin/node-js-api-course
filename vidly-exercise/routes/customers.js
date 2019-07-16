@@ -1,26 +1,12 @@
 const info = require("debug")("app:info");
 // Input validation
-const Joi = require("@hapi/joi");
 const express = require("express");
 const router = express.Router();
-const db = require("../database/model");
-
-function validateCustomer(customer) {
-  const schema = {
-    name: Joi.string()
-      .min(3)
-      .max(25)
-      .required(),
-    isGold: Joi.boolean(),
-    phone: Joi.string()
-  };
-
-  return Joi.validate(customer, schema);
-}
+const { Customer, validateCustomer } = require("../database/customer");
 
 router.get("/", async (req, res) => {
   try {
-    const customers = await db.Customer.find();
+    const customers = await Customer.find();
     info(customers);
     if (!customers) {
       res.send("blah");
@@ -33,7 +19,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const customer = await db.Customer.findOne({ _id: req.params.id });
+    const customer = await Customer.findOne({ _id: req.params.id });
 
     if (!customer) {
       return res.status(404).send("customer not found");
@@ -46,7 +32,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const customerCheck = await db.Customer.find({ name: req.body.name });
+    const customerCheck = await Customer.find({ name: req.body.name });
 
     if (customerCheck) {
       return res.send("Already exists.");
@@ -55,7 +41,7 @@ router.post("/", async (req, res) => {
     if (validationResult.error) {
       return res.status(400).send(validationResult.error.details[0].message);
     }
-    const customer = new db.Customer(req.body);
+    const customer = new Customer(req.body);
     try {
       const result = await customer.save();
       res.send(result);
@@ -70,7 +56,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   info("getting here");
   try {
-    let customer = await db.Customer.findOne({ _id: req.params.id });
+    let customer = await Customer.findOne({ _id: req.params.id });
 
     if (!customer) {
       res.status(404).send(`Customer with id: ${req.params.id} not found.`);
@@ -86,7 +72,7 @@ router.put("/:id", async (req, res) => {
         // update the object in the database
         // this should actually return the object also
         // but it doesn't seem to work well, it doesn't return the updated object as soon as it updates it seems
-        const saveResult = await db.Customer.findByIdAndUpdate(
+        const saveResult = await Customer.findByIdAndUpdate(
           req.params.id,
           mergedObjects
         );
@@ -94,7 +80,7 @@ router.put("/:id", async (req, res) => {
         info(saveResult);
 
         // get that object
-        const savedObject = await db.Customer.findOne({ _id: req.params.id });
+        const savedObject = await Customer.findOne({ _id: req.params.id });
         return res.send(savedObject);
       } catch (error) {
         info("Error ", error);
@@ -107,7 +93,7 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/delete", async (req, res) => {
   try {
-    const customers = await db.Customer.deleteMany();
+    const customers = await Customer.deleteMany();
     if (!customers) {
       res.send("nope, no delete");
     }
@@ -119,13 +105,13 @@ router.delete("/delete", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const result = await db.Customer.findOne({ _id: req.params.id });
+    const result = await Customer.findOne({ _id: req.params.id });
 
     if (!result) {
       return res.status(404).send("Customer not found.");
     }
     try {
-      const deletedCustomer = await db.Customer.deleteOne({
+      const deletedCustomer = await Customer.deleteOne({
         _id: req.params.id
       });
       return res.status(200).send(result);

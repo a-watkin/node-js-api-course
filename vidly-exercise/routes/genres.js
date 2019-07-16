@@ -1,26 +1,14 @@
 const info = require("debug")("app:info");
 // Input validation
-const Joi = require("@hapi/joi");
 const express = require("express");
 const router = express.Router();
-const db = require("../database/model");
-const dbApi = require("../database/db-interface");
-
-function validateGenre(name) {
-  info("called with ", name);
-  // validation object
-  const schema = {
-    name: Joi.string()
-      .min(3)
-      .required()
-  };
-
-  return Joi.validate(name, schema);
-}
+const { Genre, validateGenre } = require("../database/genre");
 
 router.get("/", async (req, res) => {
+  info("get genres called", Genre.find());
   try {
-    const genres = await db.Genre.find().sort("name");
+    const genres = await Genre.find().sort("name");
+    info(genres);
 
     if (!genres) {
       res.status(404).send("Genre not found.");
@@ -36,7 +24,7 @@ router.get("/", async (req, res) => {
 router.get("/create", (req, res) => {
   // creating dummy data - you must end the server before doing anything else otherwise it hangs
   try {
-    const result = dbApi.makeGenres();
+    const result = Genre.makeGenres();
     if (result) {
       res.status(200).send("Genres created.");
     }
@@ -47,7 +35,7 @@ router.get("/create", (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const genre = await db.Genre.findOne({ _id: req.params.id });
+    const genre = await Genre.findOne({ _id: req.params.id });
     if (!genre) {
       return res.status(404).send("Genre not found.");
     }
@@ -66,13 +54,13 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const result = await db.Genre.findOne({ name: req.body.name });
+    const result = await Genre.findOne({ name: req.body.name });
 
     if (result) {
       info("getting this far?");
       return res.status(409).send(result);
     } else {
-      const genre = new db.Genre(req.body);
+      const genre = new Genre(req.body);
       try {
         const newGenre = await genre.save();
         if (newGenre) {
@@ -103,7 +91,7 @@ router.put("/:id", async (req, res) => {
 
   try {
     info("id is ", req.params.id);
-    const result = await db.Genre.findOne({ _id: req.params.id });
+    const result = await Genre.findOne({ _id: req.params.id });
     info("result is ", result.genre);
     if (result) {
       // update the genre
@@ -125,7 +113,7 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/delete", async (req, res) => {
   try {
-    const genres = await db.Genre.deleteMany();
+    const genres = await Genre.deleteMany();
     info(genres);
 
     return res.status(200).send(genres);
@@ -137,13 +125,13 @@ router.delete("/delete", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     info(req.params.id);
-    const result = await db.Genre.findOne({ _id: req.params.id });
+    const result = await Genre.findOne({ _id: req.params.id });
 
     if (!result) {
       return res.status(404).send("Genre not found.");
     }
     try {
-      const deletedGenre = await db.Genre.deleteOne({ _id: req.params.id });
+      const deletedGenre = await Genre.deleteOne({ _id: req.params.id });
       return res.status(200).send(result);
     } catch (error) {
       return res.status(500).send("Genre not deleted.");
