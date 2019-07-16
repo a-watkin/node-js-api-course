@@ -2,7 +2,7 @@ const info = require("debug")("app:info");
 // Input validation
 const express = require("express");
 const router = express.Router();
-const { Genre, validateGenre } = require("../database/genre");
+const { Genre, validateGenre } = require("../models/genre");
 
 router.get("/", async (req, res) => {
   info("get genres called", Genre.find());

@@ -2,7 +2,7 @@ const info = require("debug")("app:info");
 // Input validation
 const express = require("express");
 const router = express.Router();
-const { Customer, validateCustomer } = require("../database/customer");
+const { Customer, validateCustomer } = require("../models/customer");
 
 router.get("/", async (req, res) => {
   try {
