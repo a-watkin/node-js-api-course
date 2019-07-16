@@ -19,6 +19,18 @@ const app = express();
 console.log(app.get("env"));
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 
+const mongoose = require("mongoose");
+const dbInfo = require("debug")("app:dbInfo");
+
+dbInfo("fuck you");
+
+// tried to put all this in a callable function and it seemed to work but getting documents caused it to complain
+// it seems making the connection here makes it available throughout the app?
+mongoose
+  .connect("mongodb://localhost/vidly", { useNewUrlParser: true })
+  .then(() => dbInfo("Connected to MongoDB..."))
+  .catch(err => dbInfo("Could not connect to mongodb..."));
+
 // enabling logging only if env is development
 if (app.get("env") === "development") {
   // logging module - it logs http requests, tiny being the level of logging
