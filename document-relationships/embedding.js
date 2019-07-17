@@ -86,6 +86,26 @@ async function getAndUpdateAuthor(courseId) {
   }
 }
 
-// createCourse("Node Course", new Author({ name: "Mosh" }));
+async function removeAuthor(courseId) {
+  try {
+    const course = await Course.updateOne(
+      {
+        _id: courseId
+      },
+      {
+        // can also use this on properties rather than whole document
+        $unset: {
+          author: ""
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mongoose.disconnect();
+  }
+}
 
-getAndUpdateAuthor("5d2f81394a566e3dcb9fd06d");
+// createCourse("Node Course", new Author({ name: "Mosh" }));
+// getAndUpdateAuthor("5d2f81394a566e3dcb9fd06d");
+removeAuthor("5d2f81394a566e3dcb9fd06d");
