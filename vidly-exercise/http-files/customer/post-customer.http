@@ -2,7 +2,7 @@ POST http://localhost:5000/api/customers
 content-type: application/json
 
 {
-    "isGold": "false",
-    "name": "french fries",
-    "phone": "374938739"
+    "isGold": "true",
+    "name": "thiss cant exists yet",
+    "phone": "39393"
 }

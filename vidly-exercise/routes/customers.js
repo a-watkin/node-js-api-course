@@ -31,10 +31,12 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  info("getting to this route?");
   try {
     const customerCheck = await Customer.find({ name: req.body.name });
 
-    if (customerCheck) {
+    info("customerCheck is ", customerCheck);
+    if (customerCheck.length > 0) {
       return res.send("Already exists.");
     }
     const validationResult = validateCustomer(req.body);
