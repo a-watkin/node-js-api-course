@@ -143,6 +143,26 @@ async function removeAuthor(courseId) {
   }
 }
 
+async function removeAuthor(courseId, authorId) {
+  try {
+    const course = await Course.findById(courseId);
+    console.log("course ", course);
+    const author = course.authors.id(authorId);
+    author.remove();
+    console.log("course after removal ", course);
+    await course
+      .save()
+      .then(res => console.log(res))
+      .catch(err => console.log("Save error: ", err));
+
+    // console.log("Save result: ", saveResult);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mongoose.disconnect();
+  }
+}
+
 // createCourse("Node Course", new Author({ name: "Mosh" }));
 // getAndUpdateAuthor("5d2f81394a566e3dcb9fd06d");
 // removeAuthor("5d2f81394a566e3dcb9fd06d");
@@ -157,3 +177,4 @@ async function removeAuthor(courseId) {
 // pushAuthor("5d302ffa4a8bf164cf2d57de", new Author({ name: "blah" }));
 
 // remove an author from a course
+removeAuthor("5d302ffa4a8bf164cf2d57de", "5d30f592f1b146103ed68eaf");
