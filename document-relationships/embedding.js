@@ -40,6 +40,25 @@ async function createCourseAuthorsArray(name, authors) {
   }
 }
 
+async function pushAuthor(courseId, author) {
+  try {
+    const course = await Course.findById(courseId);
+    console.log(course);
+    if (!course) {
+      console.log("Course not found.");
+    }
+    course.authors.push(author);
+    await course
+      .save()
+      .then(result => console.log(result))
+      .catch(err => console.log(err));
+  } catch (error) {
+    console.log("Error pushing author: ", error);
+  } finally {
+    mongoose.disconnect();
+  }
+}
+
 async function createCourse(name, author) {
   try {
     const course = new Course({
@@ -129,7 +148,12 @@ async function removeAuthor(courseId) {
 // removeAuthor("5d2f81394a566e3dcb9fd06d");
 
 // Multiple authors
-createCourseAuthorsArray("Node course", [
-  new Author({ name: "Mosh" }),
-  new Author({ name: "John" })
-]);
+// createCourseAuthorsArray("Node course", [
+//   new Author({ name: "Mosh" }),
+//   new Author({ name: "John" })
+// ]);
+
+// push new author to authors
+// pushAuthor("5d302ffa4a8bf164cf2d57de", new Author({ name: "blah" }));
+
+// remove an author from a course
