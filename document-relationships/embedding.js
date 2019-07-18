@@ -18,9 +18,27 @@ const Course = mongoose.model(
   new mongoose.Schema({
     name: String,
     // authorSchema is defined above
-    author: authorSchema
+    // author: authorSchema
+    // an array of authors
+    authors: [authorSchema]
   })
 );
+
+async function createCourseAuthorsArray(name, authors) {
+  try {
+    const course = new Course({
+      name,
+      authors
+    });
+
+    const result = await course.save();
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mongoose.disconnect();
+  }
+}
 
 async function createCourse(name, author) {
   try {
@@ -108,4 +126,10 @@ async function removeAuthor(courseId) {
 
 // createCourse("Node Course", new Author({ name: "Mosh" }));
 // getAndUpdateAuthor("5d2f81394a566e3dcb9fd06d");
-removeAuthor("5d2f81394a566e3dcb9fd06d");
+// removeAuthor("5d2f81394a566e3dcb9fd06d");
+
+// Multiple authors
+createCourseAuthorsArray("Node course", [
+  new Author({ name: "Mosh" }),
+  new Author({ name: "John" })
+]);
