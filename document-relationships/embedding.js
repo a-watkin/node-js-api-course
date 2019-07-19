@@ -177,4 +177,4 @@ async function removeAuthor(courseId, authorId) {
 // pushAuthor("5d302ffa4a8bf164cf2d57de", new Author({ name: "blah" }));
 
 // remove an author from a course
-removeAuthor("5d302ffa4a8bf164cf2d57de", "5d30f592f1b146103ed68eaf");
+// removeAuthor("5d302ffa4a8bf164cf2d57de", "5d30f592f1b146103ed68eaf");
