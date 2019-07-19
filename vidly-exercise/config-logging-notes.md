@@ -74,6 +74,10 @@ Add the following when starting the app:
 
 `DEBUG=app:debuggerName nodemon index.js`
 
+If you're not using nodemon:
+
+`DEBUG=app:info node movies.js`
+
 ## Selecting debuggers
 
 You can comma separate debuggers:
