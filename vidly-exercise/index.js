@@ -5,6 +5,7 @@ const morgan = require("morgan");
 // So you DON'T capitalise express
 const genreRouter = require("./routes/genres");
 const customerRouter = require("./routes/customers");
+const movieRouter = require("./routes/movies");
 
 // loads configs
 const config = require("config");
@@ -46,6 +47,7 @@ app.use(express.json());
 app.use("/api/genres", genreRouter);
 // to plural or not to plural that is fucking annoying
 app.use("/api/customers", customerRouter);
+app.use("/api/movies", movieRouter);
 
 // either use an env variable or 3000
 // process global
