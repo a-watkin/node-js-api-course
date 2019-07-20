@@ -1,0 +1,7 @@
+POST http://localhost:5000/api/movies
+Content-Type: application/json
+
+{
+    "title": "gremlins",
+    "genres": ["comedy", "drama"]
+}

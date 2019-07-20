@@ -31,4 +31,8 @@ router.get("/:id", async (req, res) => {
     .catch(err => info("not finding that movie"));
 });
 
+router.post("/", (req, res) => {
+  res.send("fuck you");
+});
+
 module.exports = router;
