@@ -31,7 +31,40 @@ router.get("/:id", async (req, res) => {
     .catch(err => info("not finding that movie"));
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
+  try {
+    const movie = req.body;
+    const genres = movie.genres.map((elem, ind, arr) => {
+      // info(elem, ind, arr);
+      return (arr[ind] = new Genre({ name: elem }));
+    });
+
+    info(movie.title);
+
+    const title = req.body.title;
+
+    const newMovie = new Movie({
+      title,
+      genres
+    });
+
+    const saveResult = await newMovie
+      .save()
+      .then(result => res.send(result))
+      .catch(err => res.send("problem saving", err));
+
+    // res.send(movie);
+  } catch (error) {
+    info(error);
+  }
+});
+
+// get
+// post
+// put
+// delete
+
+router.delete("/:id", (req, res) => {
   res.send("fuck you");
 });
 
