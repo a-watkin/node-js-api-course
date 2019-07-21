@@ -64,8 +64,13 @@ router.post("/", async (req, res) => {
 // put
 // delete
 
-router.delete("/:id", (req, res) => {
-  res.send("fuck you");
+router.delete("/:id", async (req, res) => {
+  try {
+    const deleteMovie = await Movie.findOneAndRemove({ _id: req.params.id });
+    res.send(deleteMovie);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 module.exports = router;
