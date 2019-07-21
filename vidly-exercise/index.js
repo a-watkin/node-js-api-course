@@ -27,7 +27,11 @@ dbInfo("fuck you");
 
 // it seems making the connection here makes it available throughout the app?
 mongoose
-  .connect("mongodb://localhost/vidly", { useNewUrlParser: true })
+  .connect(
+    "mongodb://localhost/vidly",
+    { useNewUrlParser: true },
+    { useFindAndModify: false }
+  )
   .then(() => dbInfo("Connected to MongoDB..."))
   .catch(err => dbInfo("Could not connect to mongodb..."));
 
