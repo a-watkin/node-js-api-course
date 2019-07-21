@@ -2,5 +2,5 @@ PUT http://localhost:5000/api/movies/5d325287c72ad5158e82e395
 Content-Type: application/json
 
   {
-    "title": "i wanna cunt a tank"
+    "title": "coffee kgb"
   }
