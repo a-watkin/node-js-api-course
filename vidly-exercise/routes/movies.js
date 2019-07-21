@@ -65,6 +65,7 @@ router.post("/", async (req, res) => {
 // delete
 
 router.put("/:id", async (req, res) => {
+  // returns the document as it was before update currently
   try {
     const currMovie = await Movie.findOne({ _id: req.params.id });
     if (!currMovie) {
