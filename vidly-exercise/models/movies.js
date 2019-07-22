@@ -1,6 +1,6 @@
 // this is moshs' version
 
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 const { genreSchema } = require("./genre");
 
