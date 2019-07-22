@@ -31,16 +31,15 @@ router.get("/:id", async (req, res) => {
     .catch(err => info("not finding that movie"));
 });
 
+function mapToGenres(genres) {
+  return genres.map((elem, ind, arr) => {
+    return (arr[ind] = new Genre({ name: elem }));
+  });
+}
+
 router.post("/", async (req, res) => {
   try {
-    const movie = req.body;
-    const genres = movie.genres.map((elem, ind, arr) => {
-      // info(elem, ind, arr);
-      return (arr[ind] = new Genre({ name: elem }));
-    });
-
-    info(movie.title);
-
+    const genres = mapToGenres(req.body.genres);
     const title = req.body.title;
 
     const newMovie = new Movie({
@@ -72,6 +71,9 @@ router.put("/:id", async (req, res) => {
       return res.status(400).send("movie not found");
     }
     info(req.params.id);
+
+    // make any new genres into Genre objects
+    req.body.genres = mapToGenres(req.body.genres);
     const combined = { ...currMovie._doc, ...req.body };
 
     try {
