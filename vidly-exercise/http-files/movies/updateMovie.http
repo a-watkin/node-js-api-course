@@ -4,5 +4,5 @@ Content-Type: application/json
   {
     "title": "gremlins 2",
     "dailyRate": 2.99,
-    "genres": ["fantasy"]
+    "genres": ["fantasy","comedy", "horror"]
   }
