@@ -2,7 +2,7 @@ const info = require("debug")("app:info");
 // Input validation
 const express = require("express");
 const router = express.Router();
-const { Movie, validateMovie, addMovie } = require("../models/movie");
+const { Movie, validateMovie, addMovie } = require("../models/my_movie");
 const { Genre } = require("../models/genre");
 
 router.get("/create", (req, res) => {
