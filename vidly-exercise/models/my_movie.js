@@ -22,10 +22,16 @@ const movieSchema = new mongoose.Schema({
   genres: [genreSchema],
   numberInStock: {
     type: Number,
+    // it's good to have number validation to make sure things run correctly
+    min: 0,
+    // max numbers to prevent malicious clients from sending very large numbers  to break things
+    max: 255,
     default: 0
   },
   dailyRate: {
     type: Number,
+    min: 0,
+    max: 255,
     default: 4.99
   }
 });
