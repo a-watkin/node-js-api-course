@@ -1,0 +1,2 @@
+GET http://localhost:5000/api/genres/create
+Content-Type: application/json
