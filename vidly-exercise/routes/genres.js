@@ -2,7 +2,22 @@ const info = require("debug")("app:info");
 // Input validation
 const express = require("express");
 const router = express.Router();
-const { Genre, validateGenre } = require("../models/genre");
+const { Genre, validateGenre, makeGenres } = require("../models/genre");
+
+router.get("/create", (req, res) => {
+  // creating dummy data - you must end the server before doing anything else otherwise it hangs
+  try {
+    info("getting here?");
+    const result = makeGenres();
+    if (result) {
+      res.status(200).send("Genres created.");
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .send(`An error occured while processing your request. \n\n ${error}`);
+  }
+});
 
 router.get("/", async (req, res) => {
   info("get genres called", Genre.find());
@@ -18,18 +33,6 @@ router.get("/", async (req, res) => {
     return res.status.send(
       `An error ocurred while handling your request ${error}`
     );
-  }
-});
-
-router.get("/create", (req, res) => {
-  // creating dummy data - you must end the server before doing anything else otherwise it hangs
-  try {
-    const result = Genre.makeGenres();
-    if (result) {
-      res.status(200).send("Genres created.");
-    }
-  } catch (error) {
-    return res.send("Genres could not be created.");
   }
 });
 
