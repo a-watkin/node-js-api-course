@@ -2,6 +2,8 @@ POST http://localhost:5000/api/movies
 Content-Type: application/json
 
 {
-    "title": "toy story 3",
-    "genres": ["drama", "comedy"]
+    "title": "the shape of water",
+    "genreId": "5d3636fb055bc52bd22a4e3c",
+    "numberInStock": 5,
+    "dailyRentalRate": 4.99
 }

@@ -1,8 +1,9 @@
-PUT http://localhost:5000/api/movies/5d325287c72ad5158e82e395
+PUT http://localhost:5000/api/movies/5d36500d2a81aa3b854117ab
 Content-Type: application/json
 
   {
-    "title": "gremlins 2",
-    "dailyRate": 2.99,
-    "genres": ["fantasy","comedy", "horror"]
+    "title": "titanic",
+    "genreId": "5d3636fb055bc52bd22a4e3c",
+    "numberInStock": 45,
+    "dailyRentalRate": 5
   }
