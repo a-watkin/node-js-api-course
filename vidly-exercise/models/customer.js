@@ -53,6 +53,7 @@ async function createCustomer(arr) {
   }
 }
 
+// uncomment to make a customer
 // createCustomer({
 //   isGold: true,
 //   name: "blah",
