@@ -19,6 +19,7 @@ function validateGenre(name) {
   const schema = {
     name: Joi.string()
       .min(3)
+      .max(255)
       .required()
   };
 
@@ -28,7 +29,7 @@ function validateGenre(name) {
 async function createGenre(arr) {
   try {
     const genre = new Genre(arr);
-    const result = await genre.save();
+    await genre.save();
   } catch (error) {
     // the error object has properties for message, error, tags and categories that you can iterate over
     // console.log("hello...?", error.message, error.errors);
@@ -43,8 +44,7 @@ async function createGenre(arr) {
 }
 
 function makeGenres() {
-  console.log("makeGenres being called");
-  dbDebugger("makeGenres called...");
+  info("makeGenres being called");
   createGenre({ name: "action" });
   createGenre({ name: "comedy" });
   createGenre({ name: "romance" });
