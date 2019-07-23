@@ -1,7 +1,7 @@
 // this is moshs' version
 
-const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
+const Joi = require("@hapi/joi");
 const { genreSchema } = require("./genre");
 
 const Movie = mongoose.model(
