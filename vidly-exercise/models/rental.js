@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
 const info = require("debug")("app:info");
-const { movieSchema } = require("./movie");
-const { customerSchema } = require("./customer");
+const movieSchema = require("./movie");
+const customerSchema = require("./customer");
+
+console.log("fuck ", movieSchema, "customerSchema ", customerSchema);
 
 const rentalSchema = new mongoose.Schema({
   movie: movieSchema,
@@ -29,4 +31,4 @@ function validateRental(rental) {
   return Joi.validate(Rental, schema);
 }
 
-module.exports = { Rental, validateRental };
+module.exports = { Rental, validateRental, rentalSchema };
