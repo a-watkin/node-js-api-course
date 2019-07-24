@@ -60,4 +60,4 @@ async function createCustomer(arr) {
 //   phone: "439745983798"
 // });
 
-module.exports = { Customer, validateCustomer };
+module.exports = { Customer, validateCustomer, customerSchema };
