@@ -1,11 +1,13 @@
 // Express framework
+// So you DON'T capitalise express
 const express = require("express");
 // logging
 const morgan = require("morgan");
-// So you DON'T capitalise express
-const genreRouter = require("./routes/genres");
-const customerRouter = require("./routes/customers");
-const movieRouter = require("./routes/movies");
+// routes
+const genreRouter = require("./routes/genre");
+const customerRouter = require("./routes/customer");
+const movieRouter = require("./routes/movie");
+const rentalRouter = require("./routes/rental");
 
 // loads configs
 const config = require("config");
@@ -22,8 +24,6 @@ console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 
 const mongoose = require("mongoose");
 const dbInfo = require("debug")("app:dbInfo");
-
-dbInfo("fuck you");
 
 // it seems making the connection here makes it available throughout the app?
 mongoose
@@ -48,6 +48,7 @@ app.use("/api/genres", genreRouter);
 // to plural or not to plural that is fucking annoying
 app.use("/api/customers", customerRouter);
 app.use("/api/movies", movieRouter);
+app.use("/api/rentals", rentalRouter);
 
 // either use an env variable or 3000
 // process global
