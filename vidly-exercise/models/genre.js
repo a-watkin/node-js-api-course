@@ -52,4 +52,4 @@ function makeGenres() {
   return true;
 }
 
-module.exports = { Genre, validateGenre, genreSchema };
+module.exports = { Genre, validateGenre, genreSchema, makeGenres };
