@@ -54,10 +54,20 @@ async function createCustomer(arr) {
 }
 
 // uncomment to make a customer
-// createCustomer({
-//   isGold: true,
-//   name: "blah",
-//   phone: "439745983798"
-// });
+function makeCustomers() {
+  createCustomer({
+    isGold: true,
+    name: "A Dingbat",
+    phone: "444912"
+  });
+
+  createCustomer({
+    isGold: false,
+    name: "B Atman",
+    phone: "555629"
+  });
+}
+
+// makeCustomers();
 
 module.exports = { Customer, validateCustomer, customerSchema };
