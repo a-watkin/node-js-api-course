@@ -76,12 +76,6 @@ async function addMovie(title, genres, numberInStock = null, dailyRate = null) {
   }
 }
 
-// createCustomer({
-//   isGold: true,
-//   name: "blah",
-//   phone: "439745983798"
-// });
-
 // addMovie("i robot", new Genre({ name: "sci-fi" }));
 
 module.exports = { Movie, validateMovie, addMovie };
