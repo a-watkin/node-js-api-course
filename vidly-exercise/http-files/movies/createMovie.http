@@ -1,2 +1,9 @@
-GET http://localhost:5000/api/movies/create
+POST http://localhost:5000/api/movies
 Content-Type: application/json
+
+{
+    "title": "short circuit",
+    "genreId": "5d38cbcf99e7d92b28a4c63d",
+    "numberInStock": "90",
+    "dailyRentalRate": "4.99"
+}
