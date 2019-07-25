@@ -4,14 +4,16 @@ const { Genre } = require("../models/genre");
 const express = require("express");
 const router = express.Router();
 
-router.get("/create", (req, res) => {
-  try {
-    addMovie("the shape of water", new Genre({ name: "fantasy" }));
-  } catch (error) {
-    info("error adding movie ", error);
-  }
-  res.send("test");
-});
+info(validate);
+
+// router.get("/create", (req, res) => {
+//   try {
+//     addMovie("the shape of water", new Genre({ name: "fantasy" }));
+//   } catch (error) {
+//     info("error adding movie ", error);
+//   }
+//   res.send("test");
+// });
 
 router.get("/", async (req, res) => {
   const movies = await Movie.find().sort("name");
