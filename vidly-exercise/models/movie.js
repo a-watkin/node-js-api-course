@@ -51,4 +51,9 @@ function validateMovie(movie) {
   return Joi.validate(movie, schema);
 }
 
-module.exports = { Movie, validateMovie, movieSchema };
+// shorthand for module.exports
+exports.validate = validateMovie;
+exports.Movie = Movie;
+exports.movieSchema = movieSchema;
+// combining them both doesn't seem to work
+// module.exports = { Movie, movieSchema };
