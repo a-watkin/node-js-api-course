@@ -31,4 +31,7 @@ function validateRental(rental) {
   return Joi.validate(Rental, schema);
 }
 
-module.exports = { Rental, validateRental, rentalSchema };
+module.exports = { Rental, rentalSchema };
+
+// shorthand for module.exports
+exports.validate = validateRental;
