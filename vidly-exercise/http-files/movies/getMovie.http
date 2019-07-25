@@ -1,2 +1,2 @@
-GET http://localhost:5000/api/movies/5d36500d2a81aa3b854117ab
+GET http://localhost:5000/api/movies/5d39f1101373e370c7bb090d
 Content-Type: application/json

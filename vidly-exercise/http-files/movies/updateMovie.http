@@ -1,9 +1,9 @@
-PUT http://localhost:5000/api/movies/5d36500d2a81aa3b854117ab
+PUT http://localhost:5000/api/movies/5d39f1101373e370c7bb090d
 Content-Type: application/json
 
   {
-    "title": "titanic",
-    "genreId": "5d3636fb055bc52bd22a4e3c",
+    "title": "short circuit",
+    "genreId": "5d38cbcf99e7d92b28a4c63d",
     "numberInStock": 45,
     "dailyRentalRate": 5
   }
