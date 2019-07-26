@@ -2,6 +2,6 @@ POST http://localhost:5000/api/rentals
 Content-Type: application/json
 
 {
-    "customerId": "5d37b3a470611811e8a3f212",
-    "movieId": ""
+    "customerId": "5d389f889aa8cb27075f4409",
+    "movieId": "5d39f1101373e370c7bb090d"
 }
