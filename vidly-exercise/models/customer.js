@@ -70,4 +70,21 @@ function makeCustomers() {
 
 // makeCustomers();
 
+async function findCustomer(customerId) {
+  try {
+    const cust = await Customer.findOne(customerId);
+    console.log(cust);
+    if (!cust) {
+      info("no data");
+    } else {
+      info("what");
+    }
+  } catch (error) {
+    info(error);
+  }
+}
+
+// findCustomer({ _id: "5d389f889aa8cb27075f4409" });
+
 module.exports = { Customer, validateCustomer, customerSchema };
+// exports.Customer = Customer;
