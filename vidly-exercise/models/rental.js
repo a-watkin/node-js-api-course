@@ -1,37 +1,71 @@
-const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
-const info = require("debug")("app:info");
-const movieSchema = require("./movie");
-const customerSchema = require("./customer");
+const mongoose = require("mongoose");
 
-console.log("fuck ", movieSchema, "customerSchema ", customerSchema);
-
-const rentalSchema = new mongoose.Schema({
-  movie: movieSchema,
-  customer: customerSchema,
-  rentalDate: { type: Date },
-  rentalPeriod: {
-    type: Number,
-    min: 1,
-    max: 7
-  }
-});
-
-const Rental = mongoose.model("Rental", rentalSchema);
+const Rental = mongoose.model(
+  "Rental",
+  new mongoose.Schema({
+    customer: {
+      type: new mongoose.Schema({
+        name: {
+          type: String,
+          required: true,
+          minlength: 5,
+          maxlength: 50
+        },
+        isGold: {
+          type: Boolean,
+          default: false
+        },
+        phone: {
+          type: String,
+          required: true,
+          minlength: 5,
+          maxlength: 50
+        }
+      }),
+      required: true
+    },
+    movie: {
+      type: new mongoose.Schema({
+        title: {
+          type: String,
+          required: true,
+          trim: true,
+          minlength: 5,
+          maxlength: 255
+        },
+        dailyRentalRate: {
+          type: Number,
+          required: true,
+          min: 0,
+          max: 255
+        }
+      }),
+      required: true
+    },
+    dateOut: {
+      type: Date,
+      required: true,
+      default: Date.now
+    },
+    dateReturned: {
+      type: Date
+    },
+    rentalFee: {
+      type: Number,
+      min: 0
+    }
+  })
+);
 
 function validateRental(rental) {
-  info("getting to validateMovie");
   const schema = {
-    movie: Joi.string().required(),
-    customer: Joi.string().required(),
-    rentalDate: Joi.date().required(),
-    rentalPeriod: Joi.number.required()
+    customerId: Joi.string().required(),
+    movieId: Joi.string().required()
   };
 
-  return Joi.validate(Rental, schema);
+  return Joi.validate(rental, schema);
 }
 
-module.exports = { Rental, rentalSchema };
-
-// shorthand for module.exports
+exports.Rental = Rental;
 exports.validate = validateRental;
