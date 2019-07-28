@@ -70,21 +70,14 @@ function makeCustomers() {
 
 // makeCustomers();
 
-async function findCustomer(customerId) {
-  try {
-    const cust = await Customer.findOne(customerId);
-    console.log(cust);
-    if (!cust) {
-      info("no data");
-    } else {
-      info("what");
-    }
-  } catch (error) {
-    info(error);
-  }
-}
+// function findCustomer() {
+//   console.log("fjeoifeoifieo");
+//   Customer.findOne({ _id: "5d389f889aa8cb27075f4409" }).then(res =>
+//     console.log("fuck you node ", res).error(err => console.log(err))
+//   );
+// }
 
-// findCustomer({ _id: "5d389f889aa8cb27075f4409" });
+// findCustomer();
 
 module.exports = { Customer, validateCustomer, customerSchema };
 // exports.Customer = Customer;
