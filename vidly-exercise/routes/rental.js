@@ -3,7 +3,7 @@ const router = express.Router();
 const info = require("debug")("app:info");
 const Customer = require("../models/customer");
 const Movie = require("../models/movie");
-const { Rental, validate: validateRental } = require("../models/rental");
+const { Rental, validateRental } = require("../models/rental");
 
 info(Customer);
 
@@ -13,12 +13,11 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  info("getting to post of rental");
   try {
     const { error } = validateRental(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const customer = await Customer.findOne(req.body.customerId);
+    const customer = await Customer.findById(req.body.customerId);
     if (!customer) return res.status(400).send("Invalid customer.");
 
     const movie = await Movie.findById(req.body.movieId);
@@ -46,7 +45,7 @@ router.post("/", async (req, res) => {
 
     res.send(rental);
   } catch (error) {
-    info(`Some problem occured ${error}`);
+    console.log("problems ", error);
   }
 });
 
