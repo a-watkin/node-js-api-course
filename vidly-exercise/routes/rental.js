@@ -1,15 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const info = require("debug")("app:info");
-const Customer = require("../models/customer");
+
+// importing like this was causing the problem
+// const Customer = require("../models/customer");
+// importing like this works
+const { Customer, validateCustomer } = require("../models/customer");
+
 const Movie = require("../models/movie");
 const { Rental, validateRental } = require("../models/rental");
 
-info(Customer);
+// info(Customer);
 
 router.get("/", async (req, res) => {
-  const rentals = await Rental.find().sort("-dateOut");
-  res.send(rentals);
+  try {
+    const customers = await Customer.find();
+    info(customers);
+    if (!customers) {
+      res.send("blah");
+    }
+    res.send(customers);
+  } catch (error) {
+    res.status(500).send(`fuck you ${error}`);
+  }
 });
 
 router.post("/", async (req, res) => {
@@ -50,12 +63,13 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const rental = await Rental.findById(req.params.id);
+  return res.send("blah blah blah");
+  // const rental = await Rental.findById(req.params.id);
 
-  if (!rental)
-    return res.status(404).send("The rental with the given ID was not found.");
+  // if (!rental)
+  //   return res.status(404).send("The rental with the given ID was not found.");
 
-  res.send(rental);
+  // res.send(rental);
 });
 
 module.exports = router;

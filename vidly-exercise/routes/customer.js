@@ -13,13 +13,15 @@ router.get("/", async (req, res) => {
     }
     res.send(customers);
   } catch (error) {
-    res.status(500).send("well this fucking sucks");
+    res.status(500).send(`what the fuck ${error}`);
   }
 });
 
 router.get("/:id", async (req, res) => {
   try {
     const customer = await Customer.findOne({ _id: req.params.id });
+
+    console.log(req.params.id);
 
     if (!customer) {
       return res.status(404).send("customer not found");
