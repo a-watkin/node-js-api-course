@@ -70,14 +70,27 @@ function makeCustomers() {
 
 // makeCustomers();
 
-// function findCustomer() {
-//   console.log("fjeoifeoifieo");
-//   Customer.findOne({ _id: "5d389f889aa8cb27075f4409" }).then(res =>
-//     console.log("fuck you node ", res).error(err => console.log(err))
-//   );
-// }
+async function findCustomer() {
+  try {
+    const customer = await Customer.findOne({
+      _id: "5d389f889aa8cb27075f4409"
+    });
+
+    if (!customer) {
+      info("nothing found");
+    }
+    info("found customer");
+  } catch (error) {
+    info("Fucked up again");
+  } finally {
+    info("exiting");
+    mongoose.disconnect();
+  }
+}
 
 // findCustomer();
 
-module.exports = { Customer, validateCustomer, customerSchema };
-// exports.Customer = Customer;
+// module.exports = { Customer, validateCustomer, customerSchema };
+exports.Customer = Customer;
+exports.validateCustomer = validateCustomer;
+exports.customerSchema = customerSchema;
