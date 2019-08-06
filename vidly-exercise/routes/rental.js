@@ -7,7 +7,9 @@ const info = require("debug")("app:info");
 // importing like this works
 const { Customer, validateCustomer } = require("../models/customer");
 
-const Movie = require("../models/movie");
+// without curly brackets this does not work
+// i guess i don't understand imports and exports well enough
+const { Movie } = require("../models/movie");
 const { Rental, validateRental } = require("../models/rental");
 
 // info(Customer);
@@ -26,50 +28,55 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  info("getting to post of rental?");
   try {
+    // ok so it gets the body ok
+    // res.send(req.body);
     const { error } = validateRental(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const customer = await Customer.findById(req.body.customerId);
-    if (!customer) return res.status(400).send("Invalid customer.");
+    const { customerId, movieId } = req.body;
 
-    // const movie = await Movie.findById(req.body.movieId);
-    // if (!movie) return res.status(400).send("Invalid movie.");
+    const customer = await Customer.findOne({ _id: customerId });
 
-    // if (movie.numberInStock === 0)
-    //   return res.status(400).send("Movie not in stock.");
+    const movie = await Movie.findOne({ _id: movieId });
 
-    // let rental = new Rental({
-    //   customer: {
-    //     _id: customer._id,
-    //     name: customer.name,
-    //     phone: customer.phone
-    //   },
-    //   movie: {
-    //     _id: movie._id,
-    //     title: movie.title,
-    //     dailyRentalRate: movie.dailyRentalRate
-    //   }
-    // });
-    // rental = await rental.save();
+    info(customer, movie);
 
-    // movie.numberInStock--;
-    // movie.save();
+    // Check stock levels
+    if (movie.numberInStock === 0)
+      return res.status(400).send("Movie not in stock.");
 
-    // res.send(rental);
+    let rental = new Rental({
+      customer: {
+        _id: customer._id,
+        name: customer.name,
+        phone: customer.phone
+      },
+      movie: {
+        _id: movie._id,
+        title: movie.title,
+        dailyRentalRate: movie.dailyRentalRate
+      }
+    });
+
+    info(`new rental is ${rental}`);
+
+    try {
+      rental = await rental.save();
+      if (rental) {
+        res.status(200).send(rental);
+      }
+    } catch (error) {
+      res.send(`There was an error saving the rental: ${error}`);
+    }
   } catch (error) {
-    console.log("problems ", error);
+    res.send(`There was a problem with the information supplied: ${error}`);
   }
 });
 
 router.get("/:id", async (req, res) => {
   return res.send("blah blah blah");
-  // const rental = await Rental.findById(req.params.id);
-
-  // if (!rental)
-  //   return res.status(404).send("The rental with the given ID was not found.");
-
-  // res.send(rental);
 });
 
 module.exports = router;

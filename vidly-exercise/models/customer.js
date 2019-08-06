@@ -90,7 +90,7 @@ async function findCustomer() {
 
 // findCustomer();
 
-// module.exports = { Customer, validateCustomer, customerSchema };
-exports.Customer = Customer;
-exports.validateCustomer = validateCustomer;
-exports.customerSchema = customerSchema;
+module.exports = { Customer, validateCustomer, customerSchema };
+// exports.Customer = Customer;
+// exports.validateCustomer = validateCustomer;
+// exports.customerSchema = customerSchema;
