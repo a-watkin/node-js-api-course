@@ -76,7 +76,17 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  return res.send("blah blah blah");
+  info(req.params.id);
+  try {
+    const rental = await Rental.findOne({ _id: req.params.id });
+    if (rental) {
+      return res.send(rental);
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .send(`Unable to retrieve a rental with the id supplied: ${error}`);
+  }
 });
 
 module.exports = router;

@@ -1,0 +1,2 @@
+GET http://localhost:5000/api/rentals/5d49d986e9ced318207f3e4e
+Content-Type: application/json
