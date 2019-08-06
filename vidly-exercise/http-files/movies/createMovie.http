@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "title": "short circuit",
-    "genreId": "5d38cbcf99e7d92b28a4c63d",
+    "genreId": "5d48c3ee0e543c17c0650fba",
     "numberInStock": "90",
     "dailyRentalRate": "4.99"
 }
