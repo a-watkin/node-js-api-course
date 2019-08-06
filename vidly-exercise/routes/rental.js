@@ -12,8 +12,6 @@ const { Customer, validateCustomer } = require("../models/customer");
 const { Movie } = require("../models/movie");
 const { Rental, validateRental } = require("../models/rental");
 
-// info(Customer);
-
 router.get("/", async (req, res) => {
   try {
     const customers = await Customer.find();
@@ -24,6 +22,20 @@ router.get("/", async (req, res) => {
     res.send(customers);
   } catch (error) {
     res.status(500).send(`fuck you ${error}`);
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  info(req.params.id);
+  try {
+    const rental = await Rental.findOne({ _id: req.params.id });
+    if (rental) {
+      return res.send(rental);
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .send(`Unable to retrieve a rental with the id supplied: ${error}`);
   }
 });
 
@@ -72,20 +84,6 @@ router.post("/", async (req, res) => {
     }
   } catch (error) {
     res.send(`There was a problem with the information supplied: ${error}`);
-  }
-});
-
-router.get("/:id", async (req, res) => {
-  info(req.params.id);
-  try {
-    const rental = await Rental.findOne({ _id: req.params.id });
-    if (rental) {
-      return res.send(rental);
-    }
-  } catch (error) {
-    return res
-      .status(500)
-      .send(`Unable to retrieve a rental with the id supplied: ${error}`);
   }
 });
 
