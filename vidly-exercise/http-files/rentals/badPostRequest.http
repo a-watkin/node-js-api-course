@@ -1,0 +1,7 @@
+POST http://localhost:5000/api/rentals
+Content-Type: application/json
+
+{
+    "customerId": "1234",
+    "movieId": "5d49bcbfbdcf80203c6a1807"
+}
