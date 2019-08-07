@@ -1,3 +1,8 @@
+// moved here from rental.js in models to make available to entire app
+const Joi = require("@hapi/joi");
+// passes Joi to the function retuned by joi-objectid
+Joi.objectId = require("joi-objectid")(Joi);
+
 // Express framework
 // So you DON'T capitalise express
 const express = require("express");
