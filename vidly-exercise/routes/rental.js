@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const info = require("debug")("app:info");
 
+// for transation like interactions
+const Fawn = require("fawn");
+const mongoose = require("mongoose");
+
 // importing like this was causing the problem
 // const Customer = require("../models/customer");
 // importing like this works
@@ -11,6 +15,8 @@ const { Customer, validateCustomer } = require("../models/customer");
 // i guess i don't understand imports and exports well enough
 const { Movie } = require("../models/movie");
 const { Rental, validateRental } = require("../models/rental");
+
+Fawn.init(mongoose);
 
 router.get("/", async (req, res) => {
   try {
@@ -75,13 +81,25 @@ router.post("/", async (req, res) => {
     info(`new rental is ${rental}`);
 
     try {
-      rental = await rental.save();
-      if (rental) {
-        res.status(200).send(rental);
-      }
+      // works directly with the collection, the first name is the name of the collection it is case sensitive, the second is the object it is passed
+      new Fawn.Task()
+        .save("rentals", rental)
+        .update("movies", { _id: movie._id }, { $inc: { numberInStock: -1 } })
+        .run();
+
+      res.send(rental);
     } catch (error) {
-      res.send(`There was an error saving the rental: ${error}`);
+      res.send(`There was an error saving the rental (Fawn): ${error}`);
     }
+
+    // try {
+    //   rental = await rental.save();
+    //   if (rental) {
+    //     res.status(200).send(rental);
+    //   }
+    // } catch (error) {
+    //   res.send(`There was an error saving the rental: ${error}`);
+    // }
   } catch (error) {
     res.send(`There was a problem with the information supplied: ${error}`);
   }
