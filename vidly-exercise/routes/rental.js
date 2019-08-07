@@ -87,4 +87,28 @@ router.post("/", async (req, res) => {
   }
 });
 
+// update
+router.put("/:id", (req, res) => {
+  return res.send(req.body);
+
+  // try {
+  //   let rental = await Rental.findByIdAndUpdate({
+  //     customer: {
+  //       _id: customer._id,
+  //       name: customer.name,
+  //       phone: customer.phone
+  //     },
+  //     movie: {
+  //       _id: movie._id,
+  //       title: movie.title,
+  //       dailyRentalRate: movie.dailyRentalRate
+  //     }
+  //   });
+  // } catch (error) {
+  //   res.send(`There was an error saving the rental: ${error}`);
+  // }
+});
+
+// delete
+
 module.exports = router;

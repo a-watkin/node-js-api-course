@@ -1,0 +1,19 @@
+PUT http://localhost:5000/api/rentals/5d49d986e9ced318207f3e4e
+Content-Type: application/json
+
+{
+  "_id": "5d49d986e9ced318207f3e4e",
+  "customer": {
+    "isGold": false,
+    "_id": "5d48c3cb0e543c17c0650fb8",
+    "name": "thiss cant exists yet",
+    "phone": "39393"
+  },
+  "movie": {
+    "_id": "5d49bcbfbdcf80203c6a1807",
+    "title": "short circuit",
+    "dailyRentalRate": 4.99
+  },
+  "dateOut": "2019-08-06T19:48:22.064Z",
+  "__v": 0
+}
