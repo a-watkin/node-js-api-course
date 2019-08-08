@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const info = require("debug")("app:info");
+const Joi = require("@hapi/joi");
 
-const userSchema = new mongoose.model({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -23,17 +23,19 @@ const userSchema = new mongoose.model({
   }
 });
 
+const User = mongoose.model("User", userSchema);
+
 function validateUser(user) {
   const schema = {
-    usernanme: Joi.String()
+    name: Joi.string()
       .min(1)
       .max(50)
       .required(),
-    email: Joi.String()
+    email: Joi.string()
       .min(5)
       .max(50)
       .required(),
-    password: Joi.String()
+    password: Joi.string()
       .min(5)
       .max(50)
       .required()
