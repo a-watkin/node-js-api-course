@@ -3,8 +3,18 @@ const router = express.Router();
 const { User, validateUser, userSchema } = require("../models/user");
 const info = require("debug")("app:info");
 
-router.get("/", (req, res) => {
-  res.send("hello");
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+    if (!users) {
+      res.status(404).send("No users found.");
+    }
+    res.send(users);
+  } catch (error) {
+    res
+      .status(500)
+      .send(`An error occured while handling your request ${error}`);
+  }
 });
 
 router.post("/", async (req, res) => {
