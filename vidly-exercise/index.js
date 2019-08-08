@@ -13,6 +13,7 @@ const genreRouter = require("./routes/genre");
 const customerRouter = require("./routes/customer");
 const movieRouter = require("./routes/movie");
 const rentalRouter = require("./routes/rental");
+const userRouter = require("./routes/user");
 
 // loads configs
 const config = require("config");
@@ -54,6 +55,7 @@ app.use("/api/genres", genreRouter);
 app.use("/api/customers", customerRouter);
 app.use("/api/movies", movieRouter);
 app.use("/api/rentals", rentalRouter);
+app.use("/api/user", userRouter);
 
 // either use an env variable or 3000
 // process global
