@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const express = require("express");
 const router = express.Router();
 const { User, validateUser, userSchema } = require("../models/user");
@@ -31,11 +32,10 @@ router.post("/", async (req, res) => {
       password: req.body.password
     });
 
-    info(user);
-
     userSaveStatus = await user.save();
     if (userSaveStatus) {
-      res.send(user);
+      // pick lets you select properties from an object
+      res.send(_.pick(user, ["name", "email"]));
     } else {
       res.status(500).send("There was a problem saving the user.");
     }
