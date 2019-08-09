@@ -26,16 +26,12 @@ router.post("/", async (req, res) => {
     const userCheck = await User.findOne({ email: req.body.email });
     if (userCheck) return res.status(400).send("User already exists.");
 
-    const user = new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password
-    });
+    const user = new User(_.pick(req.body, ["name", "email", "password"]));
 
     userSaveStatus = await user.save();
     if (userSaveStatus) {
       // pick lets you select properties from an object
-      res.send(_.pick(user, ["name", "email"]));
+      res.send(_.pick(user, ["_id", "name", "email"]));
     } else {
       res.status(500).send("There was a problem saving the user.");
     }
