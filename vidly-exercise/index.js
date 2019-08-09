@@ -14,6 +14,7 @@ const customerRouter = require("./routes/customer");
 const movieRouter = require("./routes/movie");
 const rentalRouter = require("./routes/rental");
 const userRouter = require("./routes/user");
+const authRouter = require("./routes/auth");
 
 // loads configs
 const config = require("config");
@@ -29,6 +30,9 @@ console.log(app.get("env"));
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 
 const mongoose = require("mongoose");
+// trying to surpress depreciation warning that has cropt up since adding a hashed password
+mongoose.set("useCreateIndex", true);
+
 const dbInfo = require("debug")("app:dbInfo");
 
 // it seems making the connection here makes it available throughout the app?
@@ -56,6 +60,7 @@ app.use("/api/customers", customerRouter);
 app.use("/api/movies", movieRouter);
 app.use("/api/rentals", rentalRouter);
 app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
 
 // either use an env variable or 3000
 // process global
