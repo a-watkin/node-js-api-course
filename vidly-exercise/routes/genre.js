@@ -2,6 +2,7 @@ const info = require("debug")("app:info");
 // Input validation
 const express = require("express");
 const router = express.Router();
+const authMiddleware = require("../middleware/auth");
 const { Genre, validateGenre, makeGenres } = require("../models/genre");
 
 router.get("/create", (req, res) => {
@@ -48,7 +49,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+// middleware is the second argument
+router.post("/", authMiddleware, async (req, res) => {
   // joi expects an object
   const validationResult = validateGenre(req.body);
   info(validationResult, validationResult.error);
