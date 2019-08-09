@@ -2,7 +2,7 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
-const { User, validateUser, userSchema } = require("../models/user");
+const { User, validateUser } = require("../models/user");
 const info = require("debug")("app:info");
 
 router.get("/", async (req, res) => {
@@ -35,8 +35,13 @@ router.post("/", async (req, res) => {
 
     userSaveStatus = await user.save();
     if (userSaveStatus) {
-      // pick lets you select properties from an object
-      res.send(_.pick(user, ["_id", "name", "email"]));
+      const token = user.generateAuthToken();
+
+      res
+        // sending the jwt as a header, the first argument is some unique name but should start with x by convention
+        .header("X-Auth-Token", token)
+        // pick lets you select properties from an object
+        .send(_.pick(user, ["_id", "name", "email"]));
     } else {
       res.status(500).send("There was a problem saving the user.");
     }

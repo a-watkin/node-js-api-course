@@ -1,7 +1,5 @@
-const config = require("config");
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const { User } = require("../models/user");
@@ -27,8 +25,10 @@ router.post("/", async (req, res) => {
     if (!validPassword)
       return res.status(400).send("Invalid email or password.");
 
-    // geenrates a web token with the object given in the first arg and the priate key in the second - also generates headers read more at jwt.io
-    const token = jwt.sign({ _id: user._id }, config.get("jwtPrivateKey"));
+    // moved to the model for user because of infromation export pattern
+    //
+    // generates a web token with the object given in the first arg and the priate key in the second - also generates headers read more at jwt.io
+    const token = user.generateAuthToken();
     res.send(token);
   } catch (error) {
     return res.send(`Some problem occured ${error}`);

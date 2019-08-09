@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
+const config = require("config");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -22,6 +24,13 @@ const userSchema = new mongoose.Schema({
     maxlength: 2048
   }
 });
+
+// adds a method to the user object
+// don't use an arrow function you need access to this
+userSchema.methods.generateAuthToken = function() {
+  const token = jwt.sign({ _id: this._id }, config.get("jwtPrivateKey"));
+  return token;
+};
 
 const User = mongoose.model("User", userSchema);
 
