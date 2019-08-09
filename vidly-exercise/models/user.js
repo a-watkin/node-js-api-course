@@ -38,7 +38,8 @@ function validateUser(user) {
       .email(),
     password: Joi.string()
       .min(5)
-      .max(2048)
+      // this is the string the user inputs - not the hashed value
+      .max(255)
       .required()
   };
 
