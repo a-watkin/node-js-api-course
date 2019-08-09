@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
 const { User, validateUser, userSchema } = require("../models/user");
@@ -28,6 +29,9 @@ router.post("/", async (req, res) => {
 
     // using pick helps to avoid malicious entries - i.e. the user sending more fields than excepted
     const user = new User(_.pick(req.body, ["name", "email", "password"]));
+    // getting hashed password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
 
     userSaveStatus = await user.save();
     if (userSaveStatus) {
