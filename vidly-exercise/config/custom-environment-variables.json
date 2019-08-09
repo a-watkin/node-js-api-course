@@ -1,5 +1,9 @@
+// specifies the mapping between env variables and the application
 {
+  "jwtPrivateKey": "vidly_jwtPrivateKey",
   "mail": {
     "password": "app_password"
   }
 }
+
+// use export to set an env variable in the vscode terminal on windows
