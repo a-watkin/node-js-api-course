@@ -26,6 +26,7 @@ router.post("/", async (req, res) => {
     const userCheck = await User.findOne({ email: req.body.email });
     if (userCheck) return res.status(400).send("User already exists.");
 
+    // using pick helps to avoid malicious entries - i.e. the user sending more fields than excepted
     const user = new User(_.pick(req.body, ["name", "email", "password"]));
 
     userSaveStatus = await user.save();
