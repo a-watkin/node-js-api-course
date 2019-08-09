@@ -35,6 +35,12 @@ mongoose.set("useCreateIndex", true);
 
 const dbInfo = require("debug")("app:dbInfo");
 
+if (!config.get("jwtPrivateKey")) {
+  console.log("FATAL ERROR: jwtPrivateKey is not defined");
+  // global kill app - 1 indicated an error 0 is success
+  process.exit(1);
+}
+
 // it seems making the connection here makes it available throughout the app?
 mongoose
   .connect("mongodb://localhost/vidly", { useNewUrlParser: true })
