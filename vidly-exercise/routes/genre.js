@@ -2,6 +2,7 @@ const info = require("debug")("app:info");
 // Input validation
 const express = require("express");
 const router = express.Router();
+const asyncMiddleware = require("../middleware/async");
 const authMiddleware = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const { Genre, validateGenre, makeGenres } = require("../models/genre");
@@ -21,23 +22,19 @@ router.get("/create", authMiddleware, (req, res) => {
   }
 });
 
-router.get("/", async (req, res, next) => {
-  info("get genres called", Genre.find());
-  try {
-    const genres = await Genre.find().sort("name");
-    info(genres);
+// router.get(
+//   "/",
+//   asyncMiddleware(async (req, res, next) => {
+//     const genres = await Genre.find().sort("name");
+//     res.send(genres);
+//   })
+// );
 
-    if (!genres) {
-      res.status(404).send("Genre not found.");
-    }
-    return res.send(genres);
-  } catch (error) {
-    // calls error handling middleware defined in index.js
-    next(ex);
-    // return res.status.send(
-    //   `An error ocurred while handling your request ${error}`
-    // );
-  }
+// the above error handling is now provided by express-async-errors
+// it inject and wraps the function body with a try catch block
+router.get("/", async (req, res) => {
+  const genres = await Genre.find().sort("name");
+  res.send(genres);
 });
 
 router.get("/:id", async (req, res) => {
