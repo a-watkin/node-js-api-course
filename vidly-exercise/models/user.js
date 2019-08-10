@@ -22,13 +22,18 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlengh: 5,
     maxlength: 2048
-  }
+  },
+  isAdmin: Boolean
 });
 
 // adds a method to the user object
 // don't use an arrow function you need access to this
 userSchema.methods.generateAuthToken = function() {
-  const token = jwt.sign({ _id: this._id }, config.get("jwtPrivateKey"));
+  // you can store pretty much anything in the payload
+  const token = jwt.sign(
+    { _id: this._id, isAdmin: this.isAdmin },
+    config.get("jwtPrivateKey")
+  );
   return token;
 };
 
