@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
 const { User, validateUser } = require("../models/user");
+const authMiddleware = require("../middleware/auth");
 const info = require("debug")("app:info");
 
 router.get("/", async (req, res) => {
@@ -47,6 +48,23 @@ router.post("/", async (req, res) => {
     }
   } catch (error) {
     return res.send(`Problem creating user ${error}`);
+  }
+});
+
+router.get("/me", authMiddleware, async (req, res) => {
+  try {
+    // user id comes from the token the user has
+    // it's ok to use this as if the client doesn't have one it will not get here
+    // you can potentially store whatever you want in the token
+    const user = await User.findById(req.user._id).select("-password");
+    info("the user is ", user);
+    if (!user) {
+      res.status(400).send("Not found.");
+    }
+    res.send(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
   }
 });
 
