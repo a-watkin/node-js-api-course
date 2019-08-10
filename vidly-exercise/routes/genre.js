@@ -21,7 +21,7 @@ router.get("/create", authMiddleware, (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   info("get genres called", Genre.find());
   try {
     const genres = await Genre.find().sort("name");
@@ -32,9 +32,11 @@ router.get("/", async (req, res) => {
     }
     return res.send(genres);
   } catch (error) {
-    return res.status.send(
-      `An error ocurred while handling your request ${error}`
-    );
+    // calls error handling middleware defined in index.js
+    next(ex);
+    // return res.status.send(
+    //   `An error ocurred while handling your request ${error}`
+    // );
   }
 });
 

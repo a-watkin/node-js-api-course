@@ -6,6 +6,10 @@ Joi.objectId = require("joi-objectid")(Joi);
 // Express framework
 // So you DON'T capitalise express
 const express = require("express");
+
+// error handling middleware
+const errorMiddleware = require("./middleware/error");
+
 // logging
 const morgan = require("morgan");
 // routes
@@ -67,6 +71,12 @@ app.use("/api/movies", movieRouter);
 app.use("/api/rentals", rentalRouter);
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+
+// error handling
+// err is built into express
+
+// because this middleware is after the above middlewares it will go here after some error, next is called by the middleware above to get here
+app.use(errorMiddleware);
 
 // either use an env variable or 3000
 // process global
