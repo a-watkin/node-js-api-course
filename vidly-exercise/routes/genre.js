@@ -5,7 +5,7 @@ const router = express.Router();
 const authMiddleware = require("../middleware/auth");
 const { Genre, validateGenre, makeGenres } = require("../models/genre");
 
-router.get("/create", (req, res) => {
+router.get("/create", authMiddleware, (req, res) => {
   // creating dummy data - you must end the server before doing anything else otherwise it hangs
   try {
     info("getting here?");
@@ -82,7 +82,7 @@ router.post("/", authMiddleware, async (req, res) => {
   res.send("autism beavers");
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res) => {
   const validationResult = validateGenre(req.body);
 
   info(validationResult);
@@ -116,7 +116,8 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/delete", async (req, res) => {
+// this method is a bit dumb isn't it?
+router.delete("/delete", authMiddleware, async (req, res) => {
   try {
     const genres = await Genre.deleteMany();
     info(genres);
