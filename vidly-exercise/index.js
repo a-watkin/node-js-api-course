@@ -1,3 +1,7 @@
+// monkey patches in async error handling - wraps end points in a try catch block in the same way as in asyncMiddleware
+// requiring it here is all that's necessary - it doesn't have to be stored as a constant
+require("express-async-errors");
+
 // moved here from rental.js in models to make available to entire app
 const Joi = require("@hapi/joi");
 // passes Joi to the function retuned by joi-objectid
