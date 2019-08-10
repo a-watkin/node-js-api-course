@@ -1,7 +1,3 @@
-POST http://localhost:5000/api/genres
+GET http://localhost:5000/api/user/me
 X-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDRkZGIxMjc4NjE1MTMzZTQ5ZjY2MmIiLCJpYXQiOjE1NjUzOTc4MjJ9.ixmAW9I2-1KSEpXQ3t23z5raziKBFvzgxYMZKcVZEgk
 Content-Type: application/json
-
-{
-    "name": "porn"
-}

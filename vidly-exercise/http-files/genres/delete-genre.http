@@ -1,0 +1,3 @@
+DELETE http://localhost:5000/api/genres/5d4e13dea83f7531000f829f
+X-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDRkZGIxMjc4NjE1MTMzZTQ5ZjY2MmIiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NjU0NjY0MDJ9.NUfhO-Mls9bqvL3i0DbOkvXZxuQnc88vPXdvZtdiQDg
+Content-Type: application/json

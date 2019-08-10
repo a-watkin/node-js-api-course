@@ -1,2 +1,0 @@
-DELETE http://localhost:5000/api/genres/5d2a5c90176d766698996558
-Content-Type: application/json

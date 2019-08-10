@@ -1,7 +1,10 @@
 POST http://localhost:5000/api/auth
 Content-Type: application/json
+# Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDRkZDhiNzI4M2MyODMwNzRjMzY4NDciLCJpYXQiOjE1NjUzODI4Mzl9.gJQUj2JUOJY537lb4_T_v-ncqDQ3wCkJQLjjJ2hMTMg
+
+
 
 {
-    "email": "again@gmail.com",
+    "email": "six@gmail.com",
     "password": "weakasspassword"
 }
