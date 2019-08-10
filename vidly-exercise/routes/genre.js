@@ -3,6 +3,7 @@ const info = require("debug")("app:info");
 const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const { Genre, validateGenre, makeGenres } = require("../models/genre");
 
 router.get("/create", authMiddleware, (req, res) => {
@@ -128,7 +129,8 @@ router.delete("/delete", authMiddleware, async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+// each middleware in the array will be called in turn
+router.delete("/:id", [authMiddleware, admin], async (req, res) => {
   try {
     info(req.params.id);
     const result = await Genre.findOne({ _id: req.params.id });
