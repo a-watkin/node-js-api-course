@@ -33,6 +33,8 @@ router.get("/create", authMiddleware, (req, res) => {
 // the above error handling is now provided by express-async-errors
 // it inject and wraps the function body with a try catch block
 router.get("/", async (req, res) => {
+  // throwing error to test logging with winston
+  // throw new Error("Could not even");
   const genres = await Genre.find().sort("name");
   res.send(genres);
 });

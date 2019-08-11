@@ -6,6 +6,9 @@ require("express-async-errors");
 // defualt is ok for small to medium apps only larget apps need to define a custom logger for different parts of the app
 const winston = require("winston");
 
+// comes with a 'transport' for logging messages from the console
+winston.add(new winston.transports.File({ filename: "logfile.log" }));
+
 // moved here from rental.js in models to make available to entire app
 const Joi = require("@hapi/joi");
 // passes Joi to the function retuned by joi-objectid
