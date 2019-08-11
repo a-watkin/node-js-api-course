@@ -53,6 +53,13 @@ const express = require("express");
 process.on("uncaughtException", ex => {
   console.log("AN EXCEPTION OCCURED");
   winston.error(ex.message, ex);
+  process.exit(1);
+});
+
+process.on("uncaughtException", ex => {
+  console.log("UNHANDLED EXCEPTION REJECTION");
+  winston.error(ex.message, ex);
+  process.exit(1);
 });
 
 // error handling middleware
