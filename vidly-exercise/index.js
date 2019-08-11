@@ -1,3 +1,23 @@
+// dotenv
+const dotenv = require("dotenv");
+const result = dotenv.config();
+
+if (result.error) {
+  console.log("Problem with env variables.");
+  throw result.error;
+}
+
+console.log(result.parsed);
+
+/* CHANGE THIS */
+if (!process.env.jwtPrivateKey) {
+  console.log("FATAL ERROR: jwtPrivateKey is not defined");
+  // global kill app - 1 indicated an error 0 is success
+  process.exit(1);
+}
+console.log(process.env.jwtPrivateKey);
+/* ABOVE - CONFIG */
+
 // monkey patches in async error handling - wraps end points in a try catch block in the same way as in asyncMiddleware
 // requiring it here is all that's necessary - it doesn't have to be stored as a constant
 require("express-async-errors");
@@ -44,8 +64,6 @@ const authRouter = require("./routes/auth");
 const info = require("debug")("app:info");
 info(process.env);
 
-// loads configs
-const config = require("config");
 // you can have multiple debuggers
 const startupDebugger = require("debug")("app:startup");
 // Helmet helps you secure your Express apps by setting various HTTP headers
@@ -62,13 +80,6 @@ const mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
 
 const dbInfo = require("debug")("app:dbInfo");
-
-info("fuck you ", config.get("jwtPrivateKey"));
-if (!config.get("jwtPrivateKey")) {
-  console.log("FATAL ERROR: jwtPrivateKey is not defined");
-  // global kill app - 1 indicated an error 0 is success
-  process.exit(1);
-}
 
 // it seems making the connection here makes it available throughout the app?
 mongoose
