@@ -5,9 +5,19 @@ require("express-async-errors");
 // for logging
 // defualt is ok for small to medium apps only larget apps need to define a custom logger for different parts of the app
 const winston = require("winston");
+// write winston logs to mongodb
+require("winston-mongodb");
 
 // comes with a 'transport' for logging messages from the console
 winston.add(new winston.transports.File({ filename: "logfile.log" }));
+
+// this doens't work well
+winston.add(
+  new winston.transports.MongoDB({
+    db: "mongodb://localhost/vidly",
+    level: "silly"
+  })
+);
 
 // moved here from rental.js in models to make available to entire app
 const Joi = require("@hapi/joi");
