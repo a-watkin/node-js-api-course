@@ -2,6 +2,10 @@
 // requiring it here is all that's necessary - it doesn't have to be stored as a constant
 require("express-async-errors");
 
+// for logging
+// defualt is ok for small to medium apps only larget apps need to define a custom logger for different parts of the app
+const winston = require("winston");
+
 // moved here from rental.js in models to make available to entire app
 const Joi = require("@hapi/joi");
 // passes Joi to the function retuned by joi-objectid
