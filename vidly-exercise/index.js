@@ -31,7 +31,7 @@ const express = require("express");
 // error handling middleware
 const errorMiddleware = require("./middleware/error");
 
-// logging
+// logging - to the console
 const morgan = require("morgan");
 // routes
 const genreRouter = require("./routes/genre");
@@ -40,6 +40,9 @@ const movieRouter = require("./routes/movie");
 const rentalRouter = require("./routes/rental");
 const userRouter = require("./routes/user");
 const authRouter = require("./routes/auth");
+
+const info = require("debug")("app:info");
+info(process.env);
 
 // loads configs
 const config = require("config");
@@ -60,6 +63,7 @@ mongoose.set("useCreateIndex", true);
 
 const dbInfo = require("debug")("app:dbInfo");
 
+info("fuck you ", config.get("jwtPrivateKey"));
 if (!config.get("jwtPrivateKey")) {
   console.log("FATAL ERROR: jwtPrivateKey is not defined");
   // global kill app - 1 indicated an error 0 is success
