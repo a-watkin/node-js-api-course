@@ -27,6 +27,7 @@ module.exports = function() {
   // logging uncaughtExceptions with winston
   // i think this can only be used for unhandled exceptions?
   winston.exceptions.handle(
+    new winston.transports.Console({ colorise: true, prettyPrint: true }),
     new winston.transports.File({ filename: "uncaughtExceptions.log" })
   );
 
