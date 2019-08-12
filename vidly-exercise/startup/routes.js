@@ -1,8 +1,9 @@
+/* Contain all the routes and  middleware*/
 // Express framework
 // So you DON'T capitalise express
 // one instance per app
 const express = require("express");
-/* Contain all the routes and  */
+// Helmet helps you secure your Express apps by setting various HTTP headers
 const helmet = require("helmet");
 // routes
 const genreRouter = require("../routes/genre");
