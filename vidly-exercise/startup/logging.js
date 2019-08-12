@@ -4,7 +4,14 @@ const winston = require("winston");
 // write winston logs to mongodb
 require("winston-mongodb");
 
-module.exports = function(app) {
+// monkey patches in async error handling - wraps end points in a try catch block in the same way as in asyncMiddleware
+// requiring it here is all that's necessary - it doesn't have to be stored as a constant
+//
+// is this middleware? it seems so
+//
+require("express-async-errors");
+
+module.exports = function() {
   //   const winston = require("winston");
   // comes with a 'transport' for logging messages from the console
   winston.add(new winston.transports.File({ filename: "logfile.log" }));
@@ -23,17 +30,11 @@ module.exports = function(app) {
     new winston.transports.File({ filename: "uncaughtExceptions.log" })
   );
 
-  process.on("uncaughtException", ex => {
-    // this does the same as below - in this same body
-    throw ex;
+  // process.on("uncaughtException", ex => {
+  //   // this does the same as below - in this same body
+  //   throw ex;
 
-    // winston.error(ex.message, ex);
-    // process.exit(1);
-  });
-
-  process.on("uncaughtException", ex => {
-    console.log("UNHANDLED EXCEPTION REJECTION");
-    winston.error(ex.message, ex);
-    process.exit(1);
-  });
+  //   // winston.error(ex.message, ex);
+  //   // process.exit(1);
+  // });
 };
