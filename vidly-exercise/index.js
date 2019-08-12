@@ -48,13 +48,24 @@ Joi.objectId = require("joi-objectid")(Joi);
 // So you DON'T capitalise express
 const express = require("express");
 
-// write process exception that happen with the app outside the context of express
-// such as mongodb going down
+// logging uncaughtExceptions with winston
+// i think this can only be used for unhandled exceptions?
+winston.handleExceptions(
+  new winston.transports.File({ filename: "uncaughtExceptions.log" })
+);
+
 process.on("uncaughtException", ex => {
-  console.log("AN EXCEPTION OCCURED");
   winston.error(ex.message, ex);
   process.exit(1);
 });
+
+// write process exception that happen with the app outside the context of express
+// such as mongodb going down
+// process.on("uncaughtException", ex => {
+//   console.log("AN EXCEPTION OCCURED");
+//   winston.error(ex.message, ex);
+//   process.exit(1);
+// });
 
 process.on("uncaughtException", ex => {
   console.log("UNHANDLED EXCEPTION REJECTION");
