@@ -1,6 +1,6 @@
 const { format, transports } = require("winston");
 const winston = require("winston");
-const { combine, timestamp, label, prettyPrint, printf } = format;
+const { combine, timestamp, label, prettyPrint, printf, colorize } = format;
 // write winston logs to mongodb
 require("winston-mongodb");
 
@@ -37,7 +37,7 @@ module.exports = function() {
   winston.add(
     new winston.transports.MongoDB({
       db: "mongodb://localhost/vidly",
-      format: combine(timestamp(), prettyPrint())
+      format: combine(colorize(), timestamp(), prettyPrint())
     })
   );
   winston.add(
@@ -50,8 +50,15 @@ module.exports = function() {
   logger.exceptions.handle(
     new winston.transports.File({
       filename: "uncaughtExceptions.log"
-    })
+    }),
+    new winston.transports.Console()
   );
+
+  // winston.exceptions.handle(
+  //   new winston.transports.Console({
+  //     format: combine(timestamp(), prettyPrint(), colorize())
+  //   })
+  // );
 
   // this no longer works with logger.exception.handle - but it does the same thing
   // process.on("uncaughtException", ex => {
