@@ -1,6 +1,6 @@
 const { format, transports } = require("winston");
 const winston = require("winston");
-const { combine, timestamp, label, prettyPrint, printf, colorize } = format;
+const { combine, timestamp, prettyPrint, printf } = format;
 // write winston logs to mongodb
 require("winston-mongodb");
 
