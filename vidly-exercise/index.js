@@ -50,13 +50,16 @@ const express = require("express");
 
 // logging uncaughtExceptions with winston
 // i think this can only be used for unhandled exceptions?
-winston.handleExceptions(
+winston.exceptions.handle(
   new winston.transports.File({ filename: "uncaughtExceptions.log" })
 );
 
 process.on("uncaughtException", ex => {
-  winston.error(ex.message, ex);
-  process.exit(1);
+  // this does the same as below - in this same body
+  throw ex;
+
+  // winston.error(ex.message, ex);
+  // process.exit(1);
 });
 
 // write process exception that happen with the app outside the context of express
