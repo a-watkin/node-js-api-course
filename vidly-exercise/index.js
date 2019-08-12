@@ -18,6 +18,11 @@ if (!process.env.jwtPrivateKey) {
 console.log(process.env.jwtPrivateKey);
 /* ABOVE - CONFIG */
 
+// Express framework
+// So you DON'T capitalise express
+// one instance per app
+const express = require("express");
+
 // monkey patches in async error handling - wraps end points in a try catch block in the same way as in asyncMiddleware
 // requiring it here is all that's necessary - it doesn't have to be stored as a constant
 require("express-async-errors");
@@ -43,10 +48,6 @@ winston.add(
 const Joi = require("@hapi/joi");
 // passes Joi to the function retuned by joi-objectid
 Joi.objectId = require("joi-objectid")(Joi);
-
-// Express framework
-// So you DON'T capitalise express
-const express = require("express");
 
 // logging uncaughtExceptions with winston
 // i think this can only be used for unhandled exceptions?
@@ -76,21 +77,11 @@ process.on("uncaughtException", ex => {
   process.exit(1);
 });
 
-// error handling middleware
-const errorMiddleware = require("./middleware/error");
-
 // logging - to the console
 const morgan = require("morgan");
-// routes
-const genreRouter = require("./routes/genre");
-const customerRouter = require("./routes/customer");
-const movieRouter = require("./routes/movie");
-const rentalRouter = require("./routes/rental");
-const userRouter = require("./routes/user");
-const authRouter = require("./routes/auth");
 
 const info = require("debug")("app:info");
-info(process.env);
+// info(process.env);
 
 // you can have multiple debuggers
 const startupDebugger = require("debug")("app:startup");
@@ -98,6 +89,7 @@ const startupDebugger = require("debug")("app:startup");
 const helmet = require("helmet");
 // express instance
 const app = express();
+require("./startup/routes")(app);
 
 // two ways to get env variables
 console.log(app.get("env"));
@@ -122,25 +114,6 @@ if (app.get("env") === "development") {
   // debugger equivalent of above
   startupDebugger("Morgan enabled...");
 }
-
-// tells express to ue helmet to secure http headers
-// should be applied early to be effective
-app.use(helmet());
-// tell express to use JSON - you MUST put this before an routes
-app.use(express.json());
-app.use("/api/genres", genreRouter);
-// to plural or not to plural that is fucking annoying
-app.use("/api/customers", customerRouter);
-app.use("/api/movies", movieRouter);
-app.use("/api/rentals", rentalRouter);
-app.use("/api/user", userRouter);
-app.use("/api/auth", authRouter);
-
-// error handling
-// err is built into express
-
-// because this middleware is after the above middlewares it will go here after some error, next is called by the middleware above to get here
-app.use(errorMiddleware);
 
 // either use an env variable or 3000
 // process global
