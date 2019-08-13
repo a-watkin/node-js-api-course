@@ -45,3 +45,14 @@ describe("getCurrencies", () => {
     expect(result).toEqual(expect.arrayContaining(["EUR", "USD", "AUD"]));
   });
 });
+
+describe("getProduct", () => {
+  it("should return an object with the given id and a price", () => {
+    const result = lib.getProduct(1);
+    // toEqual is for object equality - this is an exact match no other properties allowed
+    // expect(result).toEqual({ id: 1, price: 10 });
+
+    // an object that has to contain the given properties but may have more
+    expect(result).toMatchObject({ id: 1, price: 10 });
+  });
+});
