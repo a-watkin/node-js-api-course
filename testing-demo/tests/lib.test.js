@@ -56,3 +56,27 @@ describe("getProduct", () => {
     expect(result).toMatchObject({ id: 1, price: 10 });
   });
 });
+
+describe("registerUser", () => {
+  it("should throw if username is falsy", () => {
+    // this approach does not work because the exception halts execution
+    // const result = lib.registerUser(null);
+
+    // wrapping the code in an arrow function is the way to do it
+    const args = [null, undefined, "", 0, false];
+
+    args.forEach(a => {
+      expect(() => {
+        lib.registerUser(a);
+      }).toThrow();
+    });
+  });
+
+  //   single assertion principle - the above it test but with one for each value
+
+  it("should return a user object if valid username is passed", () => {
+    const result = lib.registerUser("morty");
+    expect(result).toMatchObject({ username: "morty" });
+    expect(result.id).toBeGreaterThan(0);
+  });
+});
