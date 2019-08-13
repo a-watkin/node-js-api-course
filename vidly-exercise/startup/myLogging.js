@@ -37,7 +37,7 @@ module.exports = function() {
   winston.add(
     new winston.transports.MongoDB({
       db: "mongodb://localhost/vidly",
-      format: combine(colorize(), timestamp(), prettyPrint())
+      format: combine(timestamp(), prettyPrint())
     })
   );
   winston.add(
