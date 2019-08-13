@@ -1,5 +1,6 @@
 const lib = require("../lib");
 
+// for grouping related tests
 describe("absolute", () => {
   it("should return positive number if input is positive.", () => {
     // just a positive integer
