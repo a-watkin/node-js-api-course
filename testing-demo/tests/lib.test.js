@@ -1,4 +1,6 @@
 const lib = require("../lib");
+const db = require("../db");
+const mail = require("../mail");
 
 // for grouping related tests
 describe("absolute", () => {
@@ -78,5 +80,57 @@ describe("registerUser", () => {
     const result = lib.registerUser("morty");
     expect(result).toMatchObject({ username: "morty" });
     expect(result.id).toBeGreaterThan(0);
+  });
+});
+
+describe("applyDiscount", () => {
+  it("should apply a 10% discount if customer has more than 10 points.", () => {
+    // this bit seems pointless, it literally isn't used and it repeats code in the db module - which isn't really used
+    db.getCustomerSync = function(customerId) {
+      return { id: customerId, points: 20 };
+    };
+
+    // set up a fake customer order object
+    const order = { customerId: 1, totalPrice: 10 };
+    // applies the discount to the above object
+    lib.applyDiscount(order);
+    // test the above object has been discounted
+    expect(order.totalPrice).toBe(9);
+  });
+});
+
+describe("notifyCustomer", () => {
+  // built in jest mock function - you can use it to return a value
+  const mockFunction = jest.fn();
+  mockFunction.mockReturnValue(1);
+  // calling the function now gives 1
+  const result = mockFunction();
+  console.log(result);
+  // mockFunction can also return a promise - this actually throws an error so it may have changed
+  // const awaitResult = await mockFunction();
+
+  // this also doesn't work
+  // try {
+  //   mockFunction.mockRejectedValue(new Error("..."));
+  //   const result = await mockFunction();
+
+  // } catch (error) {
+  //   console.log("tity fuck");
+  // }
+
+  /* test interaction of two objects */
+  it("should send an email to the customer", () => {
+    db.getCustomerSync = function(customerId) {
+      return { email: "a" };
+    };
+
+    let mailSend = false;
+    mail.send = function(email, messaage) {
+      mailSend = true;
+    };
+
+    lib.notifyCustomer({ customerId: 1 });
+
+    expect(mailSend).toBe(true);
   });
 });
