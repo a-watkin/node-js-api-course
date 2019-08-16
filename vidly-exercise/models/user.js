@@ -32,7 +32,7 @@ userSchema.methods.generateAuthToken = function() {
   // you can store pretty much anything in the payload
   const token = jwt.sign(
     { _id: this._id, isAdmin: this.isAdmin },
-    "fuckyou"
+    config.get("jwtPrivateKey")
     // config.get("jwtPrivateKey")
   );
   return token;
