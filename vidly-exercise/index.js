@@ -51,9 +51,11 @@ if (app.get("env") === "development") {
   startupDebugger("Morgan enabled...");
 }
 
-app.listen(port, () => {
+// returns a server object
+const server = app.listen(port, () => {
   // don't use log here because it's a symbol and dynamically changing it isn't allowed
   winston.info(`Listening on port ${port}`);
 });
 
 // DEBUG=app:info nodemon
+module.exports = server;
