@@ -40,15 +40,12 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  try {
-    const genre = await Genre.findOne({ _id: req.params.id });
-    if (!genre) {
-      return res.status(404).send("Genre not found.");
-    }
-    return res.send(genre);
-  } catch (error) {
-    return res.send("Problem getting genre with id: ", req.params.id);
-  }
+  const genre = await Genre.findById(req.params.id);
+
+  if (!genre)
+    return res.status(404).send("The genre with the given ID does not exist.");
+
+  res.send(genre);
 });
 
 // middleware is the second argument
