@@ -21,7 +21,7 @@ const express = require("express");
 // express instance
 const app = express();
 // calling logging elements
-require("./startup/myLogging")(app);
+require("./startup/myLogging")();
 // require("./startup/logging");
 
 // routes ruturns a function where app is passed as a variable
