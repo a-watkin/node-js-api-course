@@ -2,9 +2,14 @@ const info = require("debug")("app:info");
 // Input validation
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
+
+// these imports not used
+// const mongoose = require("mongoose");
+
+const validateObjectId = require("../middleware/vlaidateObjectId");
 const asyncMiddleware = require("../middleware/async");
 const authMiddleware = require("../middleware/auth");
+
 const admin = require("../middleware/admin");
 const { Genre, validateGenre, makeGenres } = require("../models/genre");
 
@@ -40,10 +45,12 @@ router.get("/", async (req, res) => {
   res.send(genres);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateObjectId, async (req, res) => {
   // needed because winston handles 500 errors and a value here that can't be cast to a valid objectId will cause winston to return 500 via middleware errors
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return res.status(404).send("Invalid ID.");
+
+  // moved to middleware
+  // if (!mongoose.Types.ObjectId.isValid(req.params.id))
+  //   return res.status(404).send("Invalid ID.");
 
   const genre = await Genre.findById(req.params.id);
 
