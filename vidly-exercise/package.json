@@ -1,9 +1,13 @@
 {
   "name": "vidly-exercise",
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node"
+  },
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --verbose"
+    "test": "jest --watchAll --detectOpenHandles --verbose"
   },
   "keywords": [],
   "author": "",
