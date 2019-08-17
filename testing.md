@@ -12,6 +12,8 @@ Tests an application or some code using an external resource like a database.
 
 Also called end to end testing - since this will test an endpoint being called and it getting data from the db.
 
+Write the test as if they are the only test - insert and delete data for each test. So that you're always testing from a controlled clean state.
+
 # Packages used:
 
 Testing packages are usually installed as dev dependencies only for example:
