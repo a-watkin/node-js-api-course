@@ -64,33 +64,38 @@ router.get("/:id", validateObjectId, async (req, res) => {
 router.post("/", authMiddleware, async (req, res) => {
   // joi expects an object
   const validationResult = validateGenre(req.body);
-  info(validationResult, validationResult.error);
+  // info(validationResult, validationResult.error);
   if (validationResult.error) {
     return res.status(400).send(validationResult.error.details[0].message);
   }
 
-  try {
-    const result = await Genre.findOne({ name: req.body.name });
+  let genre = new Genre({ name: req.body.name });
+  genre = await genre.save();
 
-    if (result) {
-      info("getting this far?");
-      return res.status(409).send(result);
-    } else {
-      const genre = new Genre(req.body);
-      try {
-        const newGenre = await genre.save();
-        if (newGenre) {
-          return res.send(newGenre);
-        }
-      } catch (error) {
-        info(error);
-      }
-    }
-    info(result);
-  } catch (error) {
-    info(error);
-  }
-  res.send("autism beavers");
+  res.send(genre);
+
+  // try {
+  //   const result = await Genre.findOne({ name: req.body.name });
+
+  //   if (result) {
+  //     info("getting this far?");
+  //     return res.status(409).send(result);
+  //   } else {
+  //     const genre = new Genre(req.body);
+  //     try {
+  //       const newGenre = await genre.save();
+  //       if (newGenre) {
+  //         return res.send(newGenre);
+  //       }
+  //     } catch (error) {
+  //       info(error);
+  //     }
+  //   }
+  //   info(result);
+  // } catch (error) {
+  //   info(error);
+  // }
+  // res.send("autism beavers");
 });
 
 router.put("/:id", authMiddleware, async (req, res) => {
