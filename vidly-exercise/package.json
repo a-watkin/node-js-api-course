@@ -1,7 +1,6 @@
 {
   "name": "vidly-exercise",
   "jest": {
-    "verbose": true,
     "testEnvironment": "node"
   },
   "version": "1.0.0",
