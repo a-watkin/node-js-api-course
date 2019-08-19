@@ -13,7 +13,7 @@ describe("/api/genres/:id", () => {
 
   // closses the server after each test
   afterEach(async () => {
-    server.close();
+    await server.close();
     // cleanup database - remove test data
     // await Genre.remove({});
     await Genre.deleteMany({});

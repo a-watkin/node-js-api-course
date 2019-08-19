@@ -13,7 +13,7 @@ describe("authorization middleware", () => {
 
   // closses the server after each test
   afterEach(async () => {
-    server.close();
+    await server.close();
   });
 
   // happy path
