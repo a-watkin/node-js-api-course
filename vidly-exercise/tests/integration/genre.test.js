@@ -235,78 +235,102 @@ describe("PUT /", () => {
 });
 
 describe("DELETE /", () => {
-  let user = { isAdmin: true };
-  // starts a new server for each test
-  // if you already had a server running it would cause a conflict to import server
+  /* A big problem with the tests i wrote is that i'm posting then deleteing, but actually i should just be putting the stuff in the db then deleting via the api. */
+
+  let token;
+  let id;
+
   beforeEach(async () => {
+    // starts a new server for each test
+    // if you already had a server running it would cause a conflict to import server
     server = require("../../index");
-    token = new User(user).generateAuthToken();
-    name = "genre1";
+    genre = new Genre({ name: "genre1" });
+    genre.save();
+    id = genre._id;
+    token = new User({ isAdmin: true }).generateAuthToken();
   });
 
-  // closses the server after each test
   afterEach(async () => {
+    // closses the server after each test
     server.close();
     // cleanup database - remove test data
-    // await Genre.remove({});
     await Genre.deleteMany({});
   });
 
-  // here to allow setting it to an empty string for testing not being logged in
-  let token;
-
   // tests that use this still themselves need to be async this returns a promise
   const exec = async () => {
+    // deletes the genre that was saved above via the API
     return await request(server)
-      .post("/api/genres")
-      .set("X-Auth-Token", token)
-      .send({
-        name
-      });
+      .delete("/api/genres/" + id)
+      .set("X-Auth-Token", token);
   };
 
-  it("should return a 200 along with the deleted genre", async () => {
-    // post a genre
+  // i didn't think to do this one
+  it("should return the removed genre", async () => {
     const res = await exec();
-    console.log(res.body);
-    // get that genres id
-    const id = res.body._id;
-    // use that id to update genre1 to genre2
-    const deletedRes = await request(server)
-      .delete(`/api/genres/${id}`)
-      .set("X-Auth-Token", token);
 
-    expect(deletedRes.status).toBe(200);
-    expect(deletedRes.body).toHaveProperty("_id");
-    expect(deletedRes.body).toHaveProperty("name", "genre1");
+    expect(res.body).toHaveProperty("_id", genre._id.toHexString());
+    expect(res.body).toHaveProperty("name", genre.name);
   });
 
-  it("should return 404 if genre not found", async () => {
-    // post a genre
+  it("should delete the genre if input is valid", async () => {
     const res = await exec();
-    // get that genres id
-    const id = mongoose.Types.ObjectId();
-    // use that id to update genre1 to genre2
-    const deletedRes = await request(server)
-      .delete(`/api/genres/${id}`)
-      .set("X-Auth-Token", token);
+    // console.log(res.body);
+    // // get that genres id
+    // const id = res.body._id;
+    // // use that id to update genre1 to genre2
+    // const deletedRes = await request(server)
+    //   .delete(`/api/genres/${id}`)
+    //   .set("X-Auth-Token", token);
 
-    expect(deletedRes.status).toBe(404);
+    // instead of the above just check the db doesn't contain the genre
+    const genreInDb = await Genre.findById(id);
+
+    expect(genreInDb).toBeNull();
+
+    // expect(deletedRes.status).toBe(200);
+    // expect(deletedRes.body).toHaveProperty("_id");
+    // expect(deletedRes.body).toHaveProperty("name", "genre1");
   });
 
+  it("should return 404 if genre id is not valid", async () => {
+    // get that genres id
+    id = mongoose.Types.ObjectId();
+    const res = await exec();
+    // use that id to update genre1 to genre2
+    // const deletedRes = await request(server)
+    //   .delete(`/api/genres/${id}`)
+    //   .set("X-Auth-Token", token);
+
+    expect(res.status).toBe(404);
+  });
+
+  it("should return 404 if the given genre id is not found", async () => {
+    id = mongoose.Types.ObjectId();
+    const res = await exec();
+    // use that id to update genre1 to genre2
+    // const deletedRes = await request(server)
+    //   .delete(`/api/genres/${id}`)
+    //   .set("X-Auth-Token", token);
+
+    expect(res.status).toBe(404);
+  });
+
+  // I had this as 403 but is should be 401
   // should be 403 when user is not admin
   it("should return a 403 if user is not admin", async () => {
-    token = new User().generateAuthToken();
+    // getting a token for a user that is not an admin
+    token = new User({ isAdmin: false }).generateAuthToken();
     // post a genre
     const res = await exec();
-    console.log(res.body);
+    // console.log(res.body);
     // get that genres id
-    const id = res.body._id;
+    // const id = res.body._id;
     // use that id to update genre1 to genre2
-    const deletedRes = await request(server)
-      .delete(`/api/genres/${id}`)
-      .set("X-Auth-Token", token);
+    // const deletedRes = await request(server)
+    //   .delete(`/api/genres/${id}`)
+    //   .set("X-Auth-Token", token);
 
-    expect(deletedRes.status).toBe(403);
+    expect(res.status).toBe(403);
   });
 });
