@@ -8,7 +8,7 @@ A document has a reference to another document.
 
 ## Embedded documents (Denomalisation)
 
-Allows for better performance at the cost of consistency if an update failes.
+Allows for better performance at the cost of consistency if an update fails.
 
 One document is embedded in another.
 
