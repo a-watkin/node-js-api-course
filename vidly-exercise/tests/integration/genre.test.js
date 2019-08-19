@@ -150,3 +150,163 @@ describe("POST /", () => {
     expect(genre).not.toBeNull();
   });
 });
+
+describe("PUT /", () => {
+  // starts a new server for each test
+  // if you already had a server running it would cause a conflict to import server
+  beforeEach(async () => {
+    server = require("../../index");
+    token = new User().generateAuthToken();
+    name = "genre1";
+  });
+
+  // closses the server after each test
+  afterEach(async () => {
+    server.close();
+    // cleanup database - remove test data
+    // await Genre.remove({});
+    await Genre.deleteMany({});
+  });
+
+  // here to allow setting it to an empty string for testing not being logged in
+  let token;
+
+  // tests that use this still themselves need to be async this returns a promise
+  const exec = async () => {
+    return await request(server)
+      .post("/api/genres")
+      .set("X-Auth-Token", token)
+      .send({
+        name
+      });
+  };
+
+  it("should return a 200 along with the posted genre", async () => {
+    // post a genre
+    const res = await exec();
+    // get that genres id
+    const id = res.body._id;
+    // use that id to update genre1 to genre2
+    const updateRes = await request(server)
+      .put(`/api/genres/${id}`)
+      .set("X-Auth-Token", token)
+      .send({
+        name: "genre2"
+      });
+
+    expect(updateRes.status).toBe(200);
+    expect(updateRes.body).toHaveProperty("_id");
+    expect(updateRes.body).toHaveProperty("name", "genre2");
+  });
+
+  // passing an id that is wrong
+
+  it("should return a 404 if the genre is not found", async () => {
+    // post a genre
+    const res = await exec();
+    // get that genres id
+    const id = mongoose.Types.ObjectId();
+    // use that id to update genre1 to genre2
+    const updateRes = await request(server)
+      .put(`/api/genres/${id}`)
+      .set("X-Auth-Token", token)
+      .send({
+        name: "genre2"
+      });
+
+    expect(updateRes.status).toBe(404);
+  });
+
+  it("should return a 400 status if the genre name is not at least 5 characters long", async () => {
+    // post a genre
+    const res = await exec();
+    // get that genres id
+    const id = res.body._id;
+    // use that id to update genre1 to genre2
+    const updateRes = await request(server)
+      .put(`/api/genres/${id}`)
+      .set("X-Auth-Token", token)
+      .send({
+        name: new Array(3).join("a")
+      });
+
+    expect(updateRes.status).toBe(400);
+  });
+});
+
+describe("DELETE /", () => {
+  let user = { isAdmin: true };
+  // starts a new server for each test
+  // if you already had a server running it would cause a conflict to import server
+  beforeEach(async () => {
+    server = require("../../index");
+    token = new User(user).generateAuthToken();
+    name = "genre1";
+  });
+
+  // closses the server after each test
+  afterEach(async () => {
+    server.close();
+    // cleanup database - remove test data
+    // await Genre.remove({});
+    await Genre.deleteMany({});
+  });
+
+  // here to allow setting it to an empty string for testing not being logged in
+  let token;
+
+  // tests that use this still themselves need to be async this returns a promise
+  const exec = async () => {
+    return await request(server)
+      .post("/api/genres")
+      .set("X-Auth-Token", token)
+      .send({
+        name
+      });
+  };
+
+  it("should return a 200 along with the deleted genre", async () => {
+    // post a genre
+    const res = await exec();
+    console.log(res.body);
+    // get that genres id
+    const id = res.body._id;
+    // use that id to update genre1 to genre2
+    const deletedRes = await request(server)
+      .delete(`/api/genres/${id}`)
+      .set("X-Auth-Token", token);
+
+    expect(deletedRes.status).toBe(200);
+    expect(deletedRes.body).toHaveProperty("_id");
+    expect(deletedRes.body).toHaveProperty("name", "genre1");
+  });
+
+  it("should return 404 if genre not found", async () => {
+    // post a genre
+    const res = await exec();
+    // get that genres id
+    const id = mongoose.Types.ObjectId();
+    // use that id to update genre1 to genre2
+    const deletedRes = await request(server)
+      .delete(`/api/genres/${id}`)
+      .set("X-Auth-Token", token);
+
+    expect(deletedRes.status).toBe(404);
+  });
+
+  // should be 403 when user is not admin
+  it("should return a 403 if user is not admin", async () => {
+    token = new User().generateAuthToken();
+    // post a genre
+    const res = await exec();
+    console.log(res.body);
+    // get that genres id
+    const id = res.body._id;
+    // use that id to update genre1 to genre2
+    const deletedRes = await request(server)
+      .delete(`/api/genres/${id}`)
+      .set("X-Auth-Token", token);
+
+    expect(deletedRes.status).toBe(403);
+  });
+});
