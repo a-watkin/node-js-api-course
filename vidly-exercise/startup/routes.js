@@ -10,9 +10,11 @@ const genreRouter = require("../routes/genre");
 const customerRouter = require("../routes/customer");
 const movieRouter = require("../routes/movie");
 const rentalRouter = require("../routes/rental");
+const returnsRouter = require("../routes/returns");
 const userRouter = require("../routes/user");
 const authRouter = require("../routes/auth");
-// error handling middleware
+
+// error handling middleware - this should go last i think?
 const errorMiddleware = require("../middleware/error");
 
 module.exports = function(app) {
@@ -28,6 +30,7 @@ module.exports = function(app) {
   app.use("/api/movies", movieRouter);
   app.use("/api/rentals", rentalRouter);
   app.use("/api/user", userRouter);
+  app.use("/api/returns", returnsRouter);
   app.use("/api/auth", authRouter);
 
   // error handling
