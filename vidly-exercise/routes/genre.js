@@ -13,20 +13,20 @@ const authMiddleware = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const { Genre, validateGenre, makeGenres } = require("../models/genre");
 
-router.get("/create", authMiddleware, (req, res) => {
-  // creating dummy data - you must end the server before doing anything else otherwise it hangs
-  try {
-    info("getting here?");
-    const result = makeGenres();
-    if (result) {
-      res.status(200).send("Genres created.");
-    }
-  } catch (error) {
-    return res
-      .status(500)
-      .send(`An error occured while processing your request. \n\n ${error}`);
-  }
-});
+// router.get("/create", authMiddleware, (req, res) => {
+//   // creating dummy data - you must end the server before doing anything else otherwise it hangs
+//   try {
+//     info("getting here?");
+//     const result = makeGenres();
+//     if (result) {
+//       res.status(200).send("Genres created.");
+//     }
+//   } catch (error) {
+//     return res
+//       .status(500)
+//       .send(`An error occured while processing your request. \n\n ${error}`);
+//   }
+// });
 
 // router.get(
 //   "/",
