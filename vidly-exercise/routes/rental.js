@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const info = require("debug")("app:info");
 
-// for transation like interactions
+// Fawn is for transation like interactions
 const Fawn = require("fawn");
 const mongoose = require("mongoose");
 
