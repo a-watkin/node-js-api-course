@@ -7,7 +7,7 @@ const { Rental } = require("../models/rental");
 const authMiddleware = require("../middleware/auth");
 
 // erroneously putting async here caused three tests to fail
-router.post("/", auth, async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   if (!req.body.customerId) {
     return res.status(400).send("customerId is required.");
   }
