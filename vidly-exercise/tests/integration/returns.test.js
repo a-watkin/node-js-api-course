@@ -86,4 +86,27 @@ describe("/api/genres/:id", () => {
     result = await exec();
     expect(result.status).toBe(200);
   });
+
+  it("should set the return date if the input is valid", async () => {
+    result = await exec();
+    const rentalInDb = await Rental.findById(rental._id);
+    // test that the time set by the endpoint is within 10 seconds of the current time
+    const diff = new Date() - rentalInDb.dateReturned;
+    expect(diff).toBeLessThan(10 * 1000);
+  });
+
+  it("set a rentalFee if input is valid, async () => {
+    // making a date two days in the past
+    let d = new Date();
+    d.setDate(d.getDate() - 2);
+    rental.dateOut = d;
+    rental.save();
+
+    // const rentalInDb = await Rental.findById(rental._id);
+    result = await exec();
+    console.log(result.body.dateOut, result.body.dateReturned);
+    const fuck =
+      new Date(result.body.dateOut) - new Date(result.body.dateReturned);
+    console.log(fuck);
+  });
 });
