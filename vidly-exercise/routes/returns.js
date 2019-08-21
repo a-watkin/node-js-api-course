@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const moment = require("moment");
 const { Rental } = require("../models/rental");
 
 // middleware
@@ -29,11 +29,13 @@ router.post("/", authMiddleware, async (req, res) => {
     return res.status(400).send("Rental already returned.");
   }
 
-  rental.dateReturned = Date.now();
+  rental.dateReturned = new Date();
+  const rentalDays = moment().diff(rental.dateOut, "days");
+  rental.rentalFee = rentalDays * rental.movie.dailyRentalRate;
+
   const result = await rental.save();
-  if (result) {
-    return res.status(200).send(result);
-  }
+
+  return res.status(200).send(result);
 });
 
 module.exports = router;
