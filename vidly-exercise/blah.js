@@ -1,3 +1,4 @@
 const moment = require("moment");
 
-console.log(moment().day(-7));
+console.log(moment());
+console.log(moment().add(-7, "days"));
