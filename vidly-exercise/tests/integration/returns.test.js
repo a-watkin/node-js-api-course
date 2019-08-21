@@ -2,6 +2,7 @@ const request = require("supertest");
 const { User } = require("../../models/user");
 const { Rental } = require("../../models/rental");
 const mongoose = require("mongoose");
+const moment = require("moment");
 let server;
 
 describe("/api/genres/:id", () => {
@@ -25,7 +26,7 @@ describe("/api/genres/:id", () => {
       movie: {
         _id: movieId,
         title: "12345",
-        dailyRentalRate: 2.5
+        dailyRentalRate: 2
       }
     });
 
@@ -91,22 +92,21 @@ describe("/api/genres/:id", () => {
     result = await exec();
     const rentalInDb = await Rental.findById(rental._id);
     // test that the time set by the endpoint is within 10 seconds of the current time
+
+    // deteReturned is literally not a property of this thing anymore
     const diff = new Date() - rentalInDb.dateReturned;
     expect(diff).toBeLessThan(10 * 1000);
   });
 
-  it("set a rentalFee if input is valid, async () => {
-    // making a date two days in the past
-    let d = new Date();
-    d.setDate(d.getDate() - 2);
-    rental.dateOut = d;
+  it("set a rentalFee if input is valid", async () => {
+    // toDate makes it a js date object
+    rental.dateOut = moment()
+      .add(-7, "days")
+      .toDate();
     rental.save();
 
-    // const rentalInDb = await Rental.findById(rental._id);
     result = await exec();
-    console.log(result.body.dateOut, result.body.dateReturned);
-    const fuck =
-      new Date(result.body.dateOut) - new Date(result.body.dateReturned);
-    console.log(fuck);
+
+    expect(result.body.rentalFee).toBeDefined();
   });
 });
