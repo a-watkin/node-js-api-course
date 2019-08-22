@@ -1,5 +1,6 @@
 const request = require("supertest");
 const { User } = require("../../models/user");
+const { Movie } = require("../../models/movie");
 const { Rental } = require("../../models/rental");
 const mongoose = require("mongoose");
 const moment = require("moment");
@@ -16,6 +17,16 @@ describe("/api/genres/:id", () => {
 
     customerId = mongoose.Types.ObjectId();
     movieId = mongoose.Types.ObjectId();
+
+    movie = new Movie({
+      _id: movieId,
+      title: "12345",
+      dailyRentalRate: 2,
+      genre: { name: "12345" },
+      numberInStock: 10
+    });
+
+    await movie.save();
 
     rental = new Rental({
       customer: {
@@ -98,7 +109,7 @@ describe("/api/genres/:id", () => {
     expect(diff).toBeLessThan(10 * 1000);
   });
 
-  it("set a rentalFee if input is valid", async () => {
+  it("should set a rentalFee if input is valid", async () => {
     // toDate makes it a js date object
     rental.dateOut = moment()
       .add(-7, "days")
@@ -108,5 +119,12 @@ describe("/api/genres/:id", () => {
     result = await exec();
 
     expect(result.body.rentalFee).toBeDefined();
+  });
+
+  it("should increase the movie stock if input is valid", async () => {
+    const res = await exec();
+    let movie = await Movie.findById(movieId);
+    console.log(movie.numberInStock);
+    expect(movie.numberInStock).toBeGreaterThan(10);
   });
 });

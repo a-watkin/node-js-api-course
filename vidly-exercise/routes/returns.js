@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const moment = require("moment");
+const { Movie } = require("../models/movie");
 const { Rental } = require("../models/rental");
 
 // middleware
@@ -34,6 +35,10 @@ router.post("/", authMiddleware, async (req, res) => {
   rental.rentalFee = rentalDays * rental.movie.dailyRentalRate;
 
   const result = await rental.save();
+
+  const movie = await Movie.findById(req.body.movieId);
+  movie.numberInStock = movie.numberInStock + 1;
+  await movie.save();
 
   return res.status(200).send(result);
 });
