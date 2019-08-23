@@ -120,12 +120,38 @@ describe("/api/genres/:id", () => {
     result = await exec();
 
     expect(result.body.rentalFee).toBeDefined();
+    expect(result.body.rentalFee).toBe(14);
   });
 
   it("should increase the movie stock if input is valid", async () => {
     const res = await exec();
     let movieInDb = await Movie.findById(movieId);
-    console.log(movie.numberInStock);
     expect(movieInDb.numberInStock).toBe(movie.numberInStock + 1);
+  });
+
+  it("should return the rental if input is valid", async () => {
+    const res = await exec();
+    const rentalInDb = await Rental.findById(rental._id);
+    // console.log("res.body ", res.body, " \n rental ", rentalInDb);
+
+    // too specific fails because the date object in the database is Date and the date retunred is in JSON
+    // expect(res.body).toMatchObject(rentalInDb);
+
+    // expect(res.body).toHaveProperty("dateOut");
+    // expect(res.body).toHaveProperty("dateReturned");
+    // expect(res.body).toHaveProperty("rentalFee");
+    // expect(res.body).toHaveProperty("customer");
+    // expect(res.body).toHaveProperty("movie");
+
+    // equivalent to above expect statments, you can't use object.keys on the db object because it has a bunch of extra stuff
+    expect(Object.keys(res.body)).toEqual(
+      expect.arrayContaining([
+        "dateOut",
+        "dateReturned",
+        "rentalFee",
+        "customer",
+        "movie"
+      ])
+    );
   });
 });
