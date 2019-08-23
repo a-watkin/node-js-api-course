@@ -1,5 +1,7 @@
 const rentalInfo = require("debug")("app:rentalInfo");
 const mongoose = require("mongoose");
+const Joi = require("@hapi/joi");
+Joi.objectId = require("joi-objectid")(Joi);
 const { Customer, validateCustomer } = require("./customer");
 
 const Rental = mongoose.model(
@@ -59,40 +61,39 @@ const Rental = mongoose.model(
   })
 );
 
-function validateRental(rental) {
+function validateRental(req) {
   const schema = {
     customerId: Joi.objectId().required(),
     movieId: Joi.objectId().required()
   };
-
-  return Joi.validate(rental, schema);
+  return Joi.validate(req, schema);
 }
 
-async function createRental(customerId, movieId) {
-  try {
-    const customer = await Customer.findOne({
-      _id: "5d389f889aa8cb27075f4409"
-    });
+// async function createRental(customerId, movieId) {
+//   try {
+//     const customer = await Customer.findOne({
+//       _id: "5d389f889aa8cb27075f4409"
+//     });
 
-    rentalInfo("called");
-    if (!customer) {
-      rentalInfo("customer not found");
-    }
-    rentalInfo(customer);
-  } catch (error) {
-    rentalInfo("error ", error);
-  }
-  // try {
-  //   rentalInfo("entering createRental");
-  //   const rental = new Rental({ customerId, movieId });
-  //   await rental.save();
-  // } catch (error) {
-  //   rentalInfo("error ", error);
-  // } finally {
-  //   mongoose.disconnect();
-  //   rentalInfo("Disconnected");
-  // }
-}
+//     rentalInfo("called");
+//     if (!customer) {
+//       rentalInfo("customer not found");
+//     }
+//     rentalInfo(customer);
+//   } catch (error) {
+//     rentalInfo("error ", error);
+//   }
+//   // try {
+//   //   rentalInfo("entering createRental");
+//   //   const rental = new Rental({ customerId, movieId });
+//   //   await rental.save();
+//   // } catch (error) {
+//   //   rentalInfo("error ", error);
+//   // } finally {
+//   //   mongoose.disconnect();
+//   //   rentalInfo("Disconnected");
+//   // }
+// }
 
 // createRental("5d389f889aa8cb27075f4409", "5d39f1101373e370c7bb090d");
 
