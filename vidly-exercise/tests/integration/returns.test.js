@@ -11,6 +11,7 @@ describe("/api/genres/:id", () => {
   let customerId;
   let movieId;
   let token;
+  let movie;
 
   beforeEach(async () => {
     server = require("../../index");
@@ -123,8 +124,8 @@ describe("/api/genres/:id", () => {
 
   it("should increase the movie stock if input is valid", async () => {
     const res = await exec();
-    let movie = await Movie.findById(movieId);
+    let movieInDb = await Movie.findById(movieId);
     console.log(movie.numberInStock);
-    expect(movie.numberInStock).toBeGreaterThan(10);
+    expect(movieInDb.numberInStock).toBe(movie.numberInStock + 1);
   });
 });

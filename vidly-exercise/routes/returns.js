@@ -36,9 +36,15 @@ router.post("/", authMiddleware, async (req, res) => {
 
   const result = await rental.save();
 
-  const movie = await Movie.findById(req.body.movieId);
-  movie.numberInStock = movie.numberInStock + 1;
-  await movie.save();
+  // update also saves
+  await Movie.update(
+    {
+      _id: rental.movie._id
+    },
+    {
+      $inc: { numberInStock: 1 }
+    }
+  );
 
   return res.status(200).send(result);
 });
