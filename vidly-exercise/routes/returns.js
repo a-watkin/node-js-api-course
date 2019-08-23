@@ -14,23 +14,8 @@ router.post(
   "/",
   [authMiddleware, validate(validateRental)],
   async (req, res) => {
-    // const { error } = validateReturn(req.body);
-    // console.log(error);
-
-    // if (!req.body.customerId) {
-    //   return res.status(400).send("customerId is required.");
-    // }
-
-    // if (!req.body.movieId) {
-    //   return res.status(400).send("movieId is required.");
-    // }
-
-    // if (error) return res.status(400).send(error.details[0].message);
-
-    const rental = await Rental.findOne({
-      "customer._id": req.body.customerId,
-      "movie._id": req.body.movieId
-    });
+    // look up static method in rental model
+    const rental = await Rental.lookup(req.body.customerId, req.body.movieId);
 
     if (!rental) {
       return res.status(404).send("Rental not found.");
