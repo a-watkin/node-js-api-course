@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const moment = require("moment");
 const { Movie } = require("../models/movie");
 const { Rental, validateRental } = require("../models/rental");
 
@@ -25,10 +24,8 @@ router.post(
       return res.status(400).send("Rental already returned.");
     }
 
-    rental.dateReturned = new Date();
-    const rentalDays = moment().diff(rental.dateOut, "days");
-    rental.rentalFee = rentalDays * rental.movie.dailyRentalRate;
-
+    // instance method set in the model for rental
+    rental.return();
     const result = await rental.save();
 
     // update also saves
@@ -41,7 +38,7 @@ router.post(
       }
     );
 
-    return res.status(200).send(result);
+    return res.send(result);
   }
 );
 
