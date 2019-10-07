@@ -4,7 +4,7 @@ const info = require("debug")("app:info");
 const { Genre, genreSchema } = require("./genre");
 
 // mongoose
-//   .connect("mongodb://localhost/fucker", { useNewUrlParser: true })
+//   .connect("mongodb://localhost/test", { useNewUrlParser: true })
 //   .then(() => console.log("Connected to MongoDB..."))
 //   .catch(err => console.error("Could not connect to MongoDB...", err));
 

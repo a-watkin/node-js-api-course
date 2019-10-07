@@ -24,7 +24,7 @@ async function getGenres() {
   let result = {};
   try {
     const genres = await Genre.find();
-    dbDebugger("if does fucking get some data ", genres);
+    dbDebugger("if does get some data ", genres);
     return genres;
   } catch (error) {
     dbDebugger("error", error);
@@ -123,11 +123,5 @@ const dbApi = {
   makeGenres: makeGenres
 };
 
-// dbApi.getGenres();
-
-// getGenres()
-//   .then(res => dbDebugger("fucking bullshit ", res))
-//   .catch(dbDebugger("fuck you"));
-// dbDebugger("why the fuck are there no results...", result);
 
 module.exports = dbApi;

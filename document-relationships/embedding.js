@@ -117,7 +117,7 @@ async function getAndUpdateAuthor(courseId) {
       }
     );
   } catch (error) {
-    console.log("fucked up ", error);
+    console.log("messed up ", error);
   } finally {
     mongoose.disconnect();
   }

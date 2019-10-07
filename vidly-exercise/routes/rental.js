@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const info = require("debug")("app:info");
 
-// Fawn is for transation like interactions
+// Fawn is for transaction like interactions
 const Fawn = require("fawn");
 const mongoose = require("mongoose");
 
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
     }
     res.send(customers);
   } catch (error) {
-    res.status(500).send(`fuck you ${error}`);
+    res.status(500).send(`Error ${error}`);
   }
 });
 

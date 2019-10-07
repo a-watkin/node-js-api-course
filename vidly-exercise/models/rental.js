@@ -59,7 +59,7 @@ const rentalSchema = new mongoose.Schema({
   }
 });
 
-rentalSchema.statics.lookup = function(customerId, movieId) {
+rentalSchema.statics.lookup = function (customerId, movieId) {
   // returns a promise the called will have to await
 
   // this references the rental class - this function is a static method of this class
@@ -69,7 +69,7 @@ rentalSchema.statics.lookup = function(customerId, movieId) {
   });
 };
 
-rentalSchema.methods.return = function() {
+rentalSchema.methods.return = function () {
   this.dateReturned = new Date();
 
   const rentalDays = moment().diff(this.dateOut, "days");
@@ -118,8 +118,8 @@ function validateRental(req) {
 // Customer.findOne({
 //   _id: "5d389f889aa8cb27075f4409"
 // })
-//   .then(res => rentalInfo("fuck", res))
-//   .then(err => rentalInfo("this wont do shit"));
+//   .then(res => rentalInfo("gah", res))
+//   .then(err => rentalInfo("this wont do anything"));
 
 exports.Rental = Rental;
 exports.validateRental = validateRental;

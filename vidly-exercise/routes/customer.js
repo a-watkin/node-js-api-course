@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     }
     res.send(customers);
   } catch (error) {
-    res.status(500).send(`what the fuck ${error}`);
+    res.status(500).send(`Error ${error}`);
   }
 });
 
@@ -28,7 +28,7 @@ router.get("/:id", async (req, res) => {
     }
     return res.send(customer);
   } catch (error) {
-    return res.send("Fucked up again");
+    return res.send("Error ", error);
   }
 });
 
@@ -53,7 +53,7 @@ router.post("/", async (req, res) => {
       res.send("could not save");
     }
   } catch (error) {
-    res.send("fuck this");
+    res.send("Error this", error);
   }
 });
 

@@ -1,3 +1,4 @@
+// for logging to text file
 const { format, transports } = require("winston");
 const winston = require("winston");
 const { combine, timestamp, prettyPrint, printf } = format;
@@ -6,14 +7,14 @@ require("winston-mongodb");
 
 require("express-async-errors");
 
-module.exports = function() {
+module.exports = function () {
   const myFormat = printf(({ level, message, label, timestamp }) => {
     return `${timestamp} ${level}: ${message}`;
   });
 
   const logger = winston.createLogger({
     level: "debug",
-    // formatting also doesn't seem to fucking work
+    // formatting also doesn't seem to work
     // it also completely ignores any formatting for errors
     format: combine(timestamp(), prettyPrint()),
     defaultMeta: { service: "user-service" },

@@ -86,7 +86,7 @@ describe("registerUser", () => {
 describe("applyDiscount", () => {
   it("should apply a 10% discount if customer has more than 10 points.", () => {
     // this bit seems pointless, it literally isn't used and it repeats code in the db module - which isn't really used
-    db.getCustomerSync = function(customerId) {
+    db.getCustomerSync = function (customerId) {
       return { id: customerId, points: 20 };
     };
 
@@ -115,17 +115,17 @@ describe("notifyCustomer", () => {
   //   const result = await mockFunction();
 
   // } catch (error) {
-  //   console.log("tity fuck");
+  //   console.log("damn it");
   // }
 
   /* test interaction of two objects */
   it("should send an email to the customer", () => {
-    db.getCustomerSync = function(customerId) {
+    db.getCustomerSync = function (customerId) {
       return { email: "a" };
     };
 
     let mailSend = false;
-    mail.send = function(email, messaage) {
+    mail.send = function (email, messaage) {
       mailSend = true;
     };
 

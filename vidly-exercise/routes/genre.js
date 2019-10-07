@@ -7,7 +7,12 @@ const router = express.Router();
 // const mongoose = require("mongoose");
 
 const validateObjectId = require("../middleware/vlaidateObjectId");
+
+// alias for middleware that makes a function async and adds try catch
+// no longer used here as it's provided by async-
 const asyncMiddleware = require("../middleware/async");
+
+
 const authMiddleware = require("../middleware/auth");
 
 const admin = require("../middleware/admin");

@@ -81,7 +81,7 @@ async function findCustomer() {
     }
     info("found customer");
   } catch (error) {
-    info("Fucked up again");
+    info(`Error ${error}`);
   } finally {
     info("exiting");
     mongoose.disconnect();

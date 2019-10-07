@@ -17,7 +17,7 @@ const authRouter = require("../routes/auth");
 // error handling middleware - this should go last i think?
 const errorMiddleware = require("../middleware/error");
 
-module.exports = function(app) {
+module.exports = function (app) {
   // routes
   // tells express to ue helmet to secure http headers
   // should be applied early to be effective
@@ -25,7 +25,7 @@ module.exports = function(app) {
   // tell express to use JSON - you MUST put this before an routes
   app.use(express.json());
   app.use("/api/genres", genreRouter);
-  // to plural or not to plural that is fucking annoying
+  // to plural or not to plural that is the annoying question
   app.use("/api/customers", customerRouter);
   app.use("/api/movies", movieRouter);
   app.use("/api/rentals", rentalRouter);

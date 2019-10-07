@@ -1,3 +1,4 @@
+// logging to text files
 const winston = require("winston");
 // logging - to the console
 const morgan = require("morgan");
@@ -26,6 +27,7 @@ require("./startup/myLogging")();
 
 // routes ruturns a function where app is passed as a variable
 require("./startup/routes")(app);
+
 // the () after require calls the function held in this file
 // it doesn't need an argument as it just connects to the db
 // this is a bit confusing

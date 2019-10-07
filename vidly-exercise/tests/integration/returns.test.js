@@ -44,8 +44,6 @@ describe("/api/genres/:id", () => {
 
     rental = await rental.save();
     token = new User({ isAdmin: true }).generateAuthToken();
-
-    // console.log("where the fuck is this! ", rental);
   });
 
   // closses the server after each test
