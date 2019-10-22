@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "jshint": "^2.10.2",
-    "mongoose": "^5.6.4"
+    "mongoose": "^5.7.5"
   }
 }
