@@ -37,7 +37,7 @@ describe("getCurrencies", () => {
     const result = lib.getCurrencies();
 
     // tests on arrays should not be to general - that it's defined
-    // or too sepcific - that elents at a place have a given value
+    // or too specific - that elements at a place should have a given value
     // instead tests should just check if some meaningful value is in there somewhere
     // expect(result).toContain("USD");
     // expect(result).toContain("AUD");
@@ -125,7 +125,7 @@ describe("notifyCustomer", () => {
     };
 
     let mailSend = false;
-    mail.send = function (email, messaage) {
+    mail.send = function (email, message) {
       mailSend = true;
     };
 

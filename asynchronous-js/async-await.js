@@ -10,7 +10,7 @@ const p = getUser(1)
 
 // equivalent to above
 // Async and await approaches
-// async here is a decorator - this whole thing is build on promises
+// async here is a decorator - this whole thing is built on promises
 async function displayCommits() {
   try {
     const user = await getUser(1);

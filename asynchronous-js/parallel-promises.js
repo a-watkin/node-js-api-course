@@ -15,7 +15,7 @@ const p2 = new Promise((resolve, reject) => {
 
 // not concurrent there's still one thread executing
 // do something after all promises are complete
-// accepts an array of promsies
+// accepts an array of promises
 // returns an array with the results
 
 // if any of the promises fail they all fail

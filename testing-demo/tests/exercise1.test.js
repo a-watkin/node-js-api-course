@@ -12,12 +12,12 @@ describe("fizzBuzz", () => {
     expect(result).toMatch(/FizzBuzz/);
   });
 
-  it("should reutrn Fizz if a number is divisible by 3 without remainer only.", () => {
+  it("should return Fizz if a number is divisible by 3 without remainder only.", () => {
     const result = exercise1.fizzBuzz(3);
     expect(result).toMatch(/Fizz/);
   });
 
-  it("should return Buzz if a number is divisble by 5 without remainer only.", () => {
+  it("should return Buzz if a number is divisible by 5 without remainder only.", () => {
     const result = exercise1.fizzBuzz(5);
     expect(result).toMatch(/Buzz/);
   });
