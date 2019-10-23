@@ -36,6 +36,6 @@ module.exports = function (app) {
   // error handling
   // err is built into express
 
-  // because this middleware is after the above middlewares it will go here after some error, next is called by the middleware above to get here
+  // because this middleware is after the above middleware it will go here after some error, next is called by the middleware above to get here
   app.use(errorMiddleware);
 };

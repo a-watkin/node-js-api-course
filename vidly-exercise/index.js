@@ -15,7 +15,7 @@ const express = require("express");
 // does it?
 //
 // const Joi = require("@hapi/joi");
-// passes Joi to the function retuned by joi-objectid
+// passes Joi to the function returned by joi-objectid
 // Joi.objectId = require("joi-objectid")(Joi);
 /*  */
 

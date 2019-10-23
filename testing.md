@@ -25,4 +25,4 @@ Testing packages are usually installed as dev dependencies only for example:
 `npm i jest --save-dev`
 
 1. Jest - for unit testing
-2. supertests - for intergration testing
+2. supertests - for integration testing

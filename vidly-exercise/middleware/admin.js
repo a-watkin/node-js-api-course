@@ -1,4 +1,4 @@
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   // 401 unauthorized - try again, if credentials are wrong you should return this
 
   // 403 forbidden - don't try again you can't access this resource

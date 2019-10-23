@@ -1,5 +1,5 @@
 // for logging
-// defualt is ok for small to medium apps only larget apps need to define a custom logger for different parts of the app
+// default is ok for small to medium apps only largest apps need to define a custom logger for different parts of the app
 const winston = require("winston");
 // write winston logs to mongodb
 require("winston-mongodb");
@@ -16,7 +16,7 @@ module.exports = function () {
   // comes with a 'transport' for logging messages from the console
   winston.add(new winston.transports.File({ filename: "logfile.log" }));
 
-  // this doens't work well
+  // this doesn't work well
   winston.add(
     new winston.transports.MongoDB({
       db: "mongodb://localhost/vidly",

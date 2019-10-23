@@ -18,7 +18,7 @@ module.exports = function () {
     // it also completely ignores any formatting for errors
     format: combine(timestamp(), prettyPrint()),
     defaultMeta: { service: "user-service" },
-    // defining transports here doens't seem to work
+    // defining transports here doesn't seem to work
     transports: []
   });
   //

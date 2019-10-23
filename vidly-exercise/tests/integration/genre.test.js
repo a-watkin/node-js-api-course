@@ -11,7 +11,7 @@ describe("/api/genres/:id", () => {
     server = require("../../index");
   });
 
-  // closses the server after each test
+  // closes the server after each test
   afterEach(async () => {
     await server.close();
     // cleanup database - remove test data
@@ -52,7 +52,7 @@ describe("/api/genres", () => {
     server = require("../../index");
   });
 
-  // closses the server after each test
+  // closes the server after each test
   afterEach(async () => {
     server.close();
     // cleanup database - remove test data
@@ -235,7 +235,7 @@ describe("PUT /", () => {
 });
 
 describe("DELETE /", () => {
-  /* A big problem with the tests i wrote is that i'm posting then deleteing, but actually i should just be putting the stuff in the db then deleting via the api. */
+  /* A big problem with the tests i wrote is that i'm posting then deleting, but actually i should just be putting the stuff in the db then deleting via the api. */
 
   let token;
   let id;

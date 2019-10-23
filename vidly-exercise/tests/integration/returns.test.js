@@ -103,7 +103,7 @@ describe("/api/genres/:id", () => {
     const rentalInDb = await Rental.findById(rental._id);
     // test that the time set by the endpoint is within 10 seconds of the current time
 
-    // deteReturned is literally not a property of this thing anymore
+    // dateReturned is literally not a property of this thing anymore
     const diff = new Date() - rentalInDb.dateReturned;
     expect(diff).toBeLessThan(10 * 1000);
   });

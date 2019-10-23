@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .send(`An error occured while handling your request ${error}`);
+      .send(`An error occurred while handling your request ${error}`);
   }
 });
 

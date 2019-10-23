@@ -25,9 +25,9 @@ router.post("/", async (req, res) => {
     if (!validPassword)
       return res.status(400).send("Invalid email or password.");
 
-    // moved to the model for user because of infromation export pattern
+    // moved to the model for user because of information export pattern
     //
-    // generates a web token with the object given in the first arg and the priate key in the second - also generates headers read more at jwt.io
+    // generates a web token with the object given in the first arg and the private key in the second - also generates headers read more at jwt.io
     const token = user.generateAuthToken();
     res.send(token);
   } catch (error) {

@@ -2,7 +2,7 @@
 
 // Return 401 if client is not logged in
 
-// Return 400 if cusotmerId is not provided
+// Return 400 if customerId is not provided
 
 // Return 400 if movieId is not provided
 

@@ -1,6 +1,6 @@
 const winston = require("winston");
 
-module.exports = function(err, req, res, next) {
+module.exports = function (err, req, res, next) {
   // passing err as the second arg logs all the properties of the error object
 
   // this repeats the error message in the log file
